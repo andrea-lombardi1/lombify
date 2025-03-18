@@ -7,7 +7,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { MessageModule } from 'primeng/message';
+import { TableModule } from 'primeng/table';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { SpinnerComponent } from '../../common/spinner/spinner.component';
+import { SearchModel } from '../../../core/model/search.model';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +21,10 @@ import { MessageModule } from 'primeng/message';
     InputTextModule,
     ToolbarModule,
     AvatarModule,
+    AvatarGroupModule,
     SelectButtonModule,
-    MessageModule
+    SpinnerComponent,
+    TableModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -28,7 +33,7 @@ export class HomeComponent implements OnInit {
   query: string = '';
   httpService = inject(HttpService);
   timeoutQuery: any;
-  results: any;
+  results: SearchModel | null = null;
   stateOptions: any[] = [{ label: 'Artista', value: 'musicArtist' },{ label: 'Album', value: 'album' }, { label: 'Canzone', value: 'musicTrack' }];
 
   value: string | null = null;
@@ -42,7 +47,10 @@ export class HomeComponent implements OnInit {
     clearTimeout(this.timeoutQuery);
     this.timeoutQuery = setTimeout(() => {
       console.log(this.query);
-      this.httpService.search(this.query).subscribe((data) => {
+      if (this.query.length < 3) {
+        return;
+      }
+      this.httpService.search(this.query, this.value).subscribe((data) => {
         this.results = data;
         console.log(this.results);
       }

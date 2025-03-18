@@ -1,13 +1,18 @@
 <p-toolbar class="p-8">
   <ng-template #start>
-    <p-avatar label="A" size="large" shape="circle"></p-avatar>
+    <p-button>
+      <span class="material-symbols"> favorite </span>
+    </p-button>
   </ng-template>
   <ng-template #center>
-      <div class="flex flex-col gap-1">
-        <input pInputText placeholder="Search"
+    <div class="flex flex-col gap-1">
+      <input
+        pInputText
+        placeholder="Search"
         [(ngModel)]="query"
-        (keydown)="search()" aria-label="search" class="ng-invalid ng-dirty" />
-        <p-message severity="error" variant="simple" size="small">At least 3 chars</p-message>
+        (keydown)="search()"
+        aria-label="search"
+      />
     </div>
   </ng-template>
   <ng-template #end>
@@ -17,20 +22,82 @@
       optionLabel="label"
       optionValue="value"
       aria-labelledby="basic"
+      (onChange)="search()"
     />
   </ng-template>
 </p-toolbar>
+<br />
 @if (query.length < 3) {
-<p-card>
+<p-card [style]="{ width: '30rem', overflow: 'hidden', margin: 'auto' }">
   <p-header>
-    <img src="assets/layout/images/avatar.png" alt="Card" />
+    <img
+      src="https://i1.wp.com/potafiori.com/wp-content/uploads/2020/04/placeholder.png?ssl=1"
+      alt="Card"
+      style="max-width: 30rem"
+    />
   </p-header>
-  <h5>Card Header</h5>
-  <p>Per la ricerca, seleziona una categoria</p>
+  <h1>Benvenuto su Lombify</h1>
+  <p>Per la ricerca, scrivi almeno 3 caratteri... buon ascolto!</p>
 </p-card>
-} @else if (!value) { all } @else if (value === 'musicArtist') { musicArtist }
-@else if (value === 'album') { album } @else if (value === 'musicTrack') {
-musicTrack }
+} @else if (!results) {
+<app-spinner></app-spinner>
+} @else if (results.resultCount === 0) {
+<p-card [style]="{ width: '30rem', overflow: 'hidden', margin: 'auto' }">
+  <p-header>
+    <img
+      src="https://i1.wp.com/potafiori.com/wp-content/uploads/2020/04/placeholder.png?ssl=1"
+      alt="Card"
+      style="max-width: 30rem"
+    />
+  </p-header>
+  <h1>0 risultati</h1>
+  <p>Non ci sono risultati per la tua ricerca... prova con qualcos'altro!</p>
+</p-card>
+} @else { @if (!value) {
+  <p-table [value]="results.results" stripedRows [scrollable]="true" scrollHeight="800px" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+        <tr>
+            <th>Picture</th>
+            <th>Title</th>
+            <th>Favorites</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-row>
+        <tr>
+            <td>
+              @if (row.wrapperType != 'artist') {
+                <p-avatar [image]="row.artworkUrl100" styleClass="mr-2" size="xlarge" />
+              } @else {
+                <p-avatar [label]="row.artistName.charAt(0)" styleClass="mr-2" size="xlarge" />
+              }
+            </td>
+            <td>
+              @if (row.wrapperType == 'track') {
+                <p>{{ row.trackName }}</p>
+              } @else if (row.wrapperType == 'collection') {
+                <p>{{ row.collectionName }}</p>
+              } @else if (row.wrapperType == 'artist') {
+                <p>{{ row.artistName }}</p>
+              }
+            </td>
+            <td>
+              <p-button [rounded]="true" severity="secondary">
+                <span class="material-symbols-outlined"> favorite </span>
+              </p-button>
+            </td>
+            <td>
+              <p-button [rounded]="true" severity="secondary">
+                <span class="material-symbols-outlined">
+                  open_in_new </span>
+              </p-button></td>
+        </tr>
+    </ng-template>
+</p-table>
+ } @else if (value === 'musicArtist') { musicArtist
+} @else if (value === 'album') { album } @else if (value === 'musicTrack') {
+musicTrack } }
+
 <!-- @if (true)
 {
   <p-progressSpinner></p-progressSpinner>
