@@ -24,26 +24,29 @@ import { SearchModel } from '../../../core/model/search.model';
     AvatarGroupModule,
     SelectButtonModule,
     SpinnerComponent,
-    TableModule
+    TableModule,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
   query: string = '';
   httpService = inject(HttpService);
   timeoutQuery: any;
   results: SearchModel | null = null;
-  stateOptions: any[] = [{ label: 'Artista', value: 'musicArtist' },{ label: 'Album', value: 'album' }, { label: 'Canzone', value: 'musicTrack' }];
+  stateOptions: any[] = [
+    { label: 'Artista', value: 'musicArtist' },
+    { label: 'Album', value: 'album' },
+    { label: 'Canzone', value: 'musicTrack' },
+  ];
 
   value: string | null = null;
   data: string[] = [];
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   search() {
+    this.results = null;
     clearTimeout(this.timeoutQuery);
     this.timeoutQuery = setTimeout(() => {
       console.log(this.query);
@@ -53,8 +56,7 @@ export class HomeComponent implements OnInit {
       this.httpService.search(this.query, this.value).subscribe((data) => {
         this.results = data;
         console.log(this.results);
-      }
-      );
+      });
     }, 500);
   }
 }

@@ -13,8 +13,8 @@ export class HttpService {
 
   search(query: string, entity: string | null) {
     const url = entity
-      ? `https://itunes.apple.com/search?country=it&media=music&entity=${entity}&term=${query}`
-      : `https://itunes.apple.com/search?country=it&media=music&entity=musicArtist,album,musicTrack&term=${query}`;
+      ? `https://itunes.apple.com/search?media=music&entity=${entity}&term=${query}`
+      : `https://itunes.apple.com/search?media=music&entity=musicArtist,album,musicTrack&term=${query}`;
     return this.http.get<SearchModel>(url);
   }
 }
