@@ -1,0 +1,37 @@
+<p-toolbar class="p-8">
+  <ng-template #start>
+    <p-avatar label="A" size="large" shape="circle"></p-avatar>
+  </ng-template>
+  <ng-template #center>
+      <div class="flex flex-col gap-1">
+        <input pInputText placeholder="Search"
+        [(ngModel)]="query"
+        (keydown)="search()" aria-label="search" class="ng-invalid ng-dirty" />
+        <p-message severity="error" variant="simple" size="small">At least 3 chars</p-message>
+    </div>
+  </ng-template>
+  <ng-template #end>
+    <p-selectbutton
+      [options]="stateOptions"
+      [(ngModel)]="value"
+      optionLabel="label"
+      optionValue="value"
+      aria-labelledby="basic"
+    />
+  </ng-template>
+</p-toolbar>
+@if (query.length < 3) {
+<p-card>
+  <p-header>
+    <img src="assets/layout/images/avatar.png" alt="Card" />
+  </p-header>
+  <h5>Card Header</h5>
+  <p>Per la ricerca, seleziona una categoria</p>
+</p-card>
+} @else if (!value) { all } @else if (value === 'musicArtist') { musicArtist }
+@else if (value === 'album') { album } @else if (value === 'musicTrack') {
+musicTrack }
+<!-- @if (true)
+{
+  <p-progressSpinner></p-progressSpinner>
+} -->
