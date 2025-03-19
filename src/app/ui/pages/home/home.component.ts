@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
 import { SearchModel } from '../../../core/model/search.model';
+import { PlayerService } from '../../../core/service/player/player.service';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ import { SearchModel } from '../../../core/model/search.model';
 export class HomeComponent implements OnInit {
   query: string = '';
   httpService = inject(HttpService);
+  playerService = inject(PlayerService);
   timeoutQuery: any;
   results: SearchModel | null = null;
   stateOptions: any[] = [
@@ -58,5 +60,10 @@ export class HomeComponent implements OnInit {
         console.log(this.results);
       });
     }, 500);
+  }
+
+  playSong(songUrl: string) {
+    this.playerService.initializePlayer(songUrl);
+    this.playerService.play();
   }
 }

@@ -13,6 +13,7 @@
       (keydown)="search()"
       aria-label="search"
       style="width: 32rem"
+      [class.ng-invalid]="query.length < 3"
     />
   </div>
   <div class="end">
@@ -56,8 +57,8 @@
   [value]="results.results"
   stripedRows
   scrollable="true"
-  scrollHeight="calc(100vh - 180px)"
-  [tableStyle]="{ 'padding': '0 0 0 16px' }"
+  scrollHeight="calc(100vh - 188px)"
+  [tableStyle]="{ 'margin': '0 0 0 16px', width: 'calc(100% - 16px)' }"
 >
   <ng-template #header>
     <tr></tr>
@@ -68,65 +69,63 @@
       <td>
         <p-avatar
           [label]="row.artistName.charAt(0)"
-          styleClass="mr-2"
           size="xlarge"
+          [style]="{ 'width': '100px', 'height': '100px' }"
         />
       </td>
       <td>
-        <p>{{ row.artistName }}</p>
+        <h2>{{ row.artistName }}</h2>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> favorite </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> favorite </span>
         </p-button>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> account_circle </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> account_circle </span>
         </p-button>
       </td>
       } @else if (row.wrapperType == 'collection') {
       <td>
         <p-avatar
           [image]="row.artworkUrl100"
-          styleClass="mr-2"
           size="xlarge"
           [style]="{ 'width': '100px', 'height': 'auto' }"
         />
       </td>
       <td>
-        <p>{{ row.collectionName }}</p>
+        <h2>{{ row.collectionName }}</h2>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> favorite </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> favorite </span>
         </p-button>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> collections_bookmark </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> collections_bookmark </span>
         </p-button>
       </td>
       } @else if (row.wrapperType == 'track') {
       <td>
         <p-avatar
           [image]="row.artworkUrl100"
-          styleClass="mr-2"
           size="xlarge"
           [style]="{ 'width': '100px', 'height': 'auto' }"
         />
       </td>
       <td>
-        <p>{{ row.trackName }}</p>
+        <h2>{{ row.trackName }}</h2>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> favorite </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> favorite </span>
         </p-button>
       </td>
       <td>
-        <p-button [rounded]="true" severity="secondary">
-          <span class="material-symbols-outlined"> play_circle </span>
+        <p-button [rounded]="true" severity="secondary" [style]="{ 'font-size': '1.5rem', 'padding': '1rem' }" (click)="playSong(row.previewUrl)">
+          <span class="material-symbols-outlined" style="font-size: 2rem;"> play_circle </span>
         </p-button>
       </td>
       }
