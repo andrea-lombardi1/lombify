@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
@@ -23,7 +23,7 @@ import { PlayerService } from '../../../core/service/player/player.service';
     ToolbarModule,
     AvatarModule,
     AvatarGroupModule,
-    SelectButtonModule,
+    SelectModule,
     SpinnerComponent,
     TableModule,
   ],

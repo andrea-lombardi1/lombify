@@ -17,6 +17,7 @@ interface SearchModelArtist {
 interface SearchModelAll {
   wrapperType: string;
   kind: string;
+  amgArtistId: number;
   artistId: number;
   collectionId: number;
   trackId: number;

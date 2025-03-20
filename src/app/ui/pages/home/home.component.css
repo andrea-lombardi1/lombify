@@ -1,59 +1,62 @@
 .toolbar {
-  display: grid;
-  grid-template-columns: 300px auto 300px;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  border: 2px solid #1976d2;
-  border-radius: 8px;
-  color: white;
+  border-bottom: 4px solid #1976d2;
+  border-radius: 0 0 8px 8px;
   position: fixed;
   top: 0;
-  width: calc(100% - 32px);
+  width: 100%;
   z-index: 1;
-  margin: 16px;
+  backdrop-filter: blur(12px);
 }
 .toolbar .start {
   text-align: start;
   padding: 16px;
+  flex: 1;
 }
 
 .toolbar .end {
   text-align: end;
   padding: 16px;
+  flex: 1;
 }
 
 .toolbar .center {
   text-align: center;
+  flex: 1;
 }
 
 .bottombar {
-  display: grid;
-  grid-template-columns: 300px auto 300px;
+  display: flex;
   align-items: center;
-  border: 2px solid #1976d2;
-  border-radius: 8px;
-  color: white;
+  border-top: 4px solid #1976d2;
+  border-radius: 8px 8px 0 0;
   position: fixed;
   bottom: 0;
-  width: calc(100% - 32px);
+  width: 100%;
   z-index: 1;
-  margin: 16px;
+  backdrop-filter: blur(12px);
 }
 .bottombar .start {
   text-align: start;
   padding: 16px;
+  flex: 1;
 }
 
 .bottombar .end {
   text-align: end;
   padding: 16px;
+  flex: 1;
 }
 
 .bottombar .center {
   text-align: center;
+  flex: 1;
 }
 
 .divider {
-  height: 94px;
+  height: 80px;
   width: 1px;
 }
 
