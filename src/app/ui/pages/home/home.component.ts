@@ -10,8 +10,11 @@ import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
-import { SearchModel } from '../../../core/model/search.model';
+import { SearchModel, SearchModelAll } from '../../../core/model/search.model';
 import { PlayerService } from '../../../core/service/player/player.service';
+import { RouterModule } from '@angular/router';
+import { CollectionService } from '../../../core/service/collection/collection.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +29,8 @@ import { PlayerService } from '../../../core/service/player/player.service';
     SelectModule,
     SpinnerComponent,
     TableModule,
+    RouterModule,
+    CommonModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -34,6 +39,7 @@ export class HomeComponent implements OnInit {
   query: string = '';
   httpService = inject(HttpService);
   playerService = inject(PlayerService);
+  collectionService = inject(CollectionService);
   timeoutQuery: any;
   results: SearchModel | null = null;
   stateOptions: any[] = [
@@ -65,5 +71,9 @@ export class HomeComponent implements OnInit {
   playSong(songUrl: string) {
     this.playerService.initializePlayer(songUrl);
     this.playerService.play();
+  }
+
+  addToFavorites(row: SearchModelAll) {
+    this.collectionService.addCollection(row);
   }
 }

@@ -14,7 +14,7 @@ interface SearchModelArtist {
   amgArtistId?: number;
 }
 
-interface SearchModelAll {
+export interface SearchModelAll {
   wrapperType: string;
   kind: string;
   amgArtistId: number;

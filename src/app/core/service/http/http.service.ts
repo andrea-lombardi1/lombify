@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { SearchModel } from '../../model/search.model';
 import { map } from 'rxjs';
+import { CollectionService } from '../collection/collection.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { map } from 'rxjs';
 export class HttpService {
 
   http = inject(HttpClient);
+  collection = inject(CollectionService);
 
   constructor() { }
 
@@ -30,6 +32,10 @@ export class HttpService {
       results: response.results
         .filter(result => entity !== 'musicArtist' || result.amgArtistId)
         .sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime())
+        .map(result => ({
+        ...result,
+        favorite: this.collection.has(result)
+        }))
       }))
     );
   }
