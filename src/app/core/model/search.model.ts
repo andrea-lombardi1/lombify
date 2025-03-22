@@ -64,3 +64,24 @@ export interface Album {
   currency: string;
   favorite: boolean;
 }
+
+export interface Track {
+  trackId: number;
+  trackName: string;
+  artistId: number;
+  artistName: string;
+  collectionId: number;
+  collectionName: string;
+  releaseDate: string;
+  artworkUrl100: string;
+  primaryGenreName: string;
+  trackPrice: number;
+  trackExplicitness: string;
+  trackTimeMillis: number;
+  trackNumber: number;
+  trackCount: number;
+  discNumber: number;
+  discCount: number;
+  previewUrl: string;
+  favorite: boolean;
+}

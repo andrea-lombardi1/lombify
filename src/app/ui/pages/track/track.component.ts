@@ -1,12 +1,13 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { WrapperType } from '../../../core/model/search.model';
+import { ResultModel, WrapperType } from '../../../core/model/search.model';
 import { HttpService } from '../../../core/service/http/http.service';
 import { NavbarComponent } from "../../common/navbar/navbar.component";
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-track',
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, PanelModule],
   templateUrl: './track.component.html',
   styleUrl: './track.component.css'
 })
@@ -16,6 +17,8 @@ export class TrackComponent implements OnInit {
   httpService = inject(HttpService);
 
   itemsBreadcrumb: MenuItem[] = [];
+
+  track : ResultModel | undefined;
 
   ngOnInit() {
     this.httpService
@@ -28,7 +31,7 @@ export class TrackComponent implements OnInit {
           { label: data.results[0].collectionName, route: `/album/${data.results[0].collectionId}` },
           { label: data.results[0].trackName },
         ];
-
+        this.track = data.results[0];
       });
   }
 }

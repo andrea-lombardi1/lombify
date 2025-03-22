@@ -1,6 +1,7 @@
 <div class="toolbar">
-  <p-breadcrumb [model]="items">
-
+  <p-breadcrumb [model]="items"
+  [style]="{ background: 'none' }"
+  >
     <ng-template #item let-item>
       @if (item.route) {
           <a [routerLink]="item.route" class="p-breadcrumb-item-link">
@@ -14,3 +15,4 @@
   </ng-template>
   </p-breadcrumb>
 </div>
+<div class="divider"></div>

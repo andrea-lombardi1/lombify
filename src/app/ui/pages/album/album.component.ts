@@ -1,12 +1,13 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { WrapperType } from '../../../core/model/search.model';
+import { ResultModel, WrapperType } from '../../../core/model/search.model';
 import { HttpService } from '../../../core/service/http/http.service';
 import { NavbarComponent } from "../../common/navbar/navbar.component";
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-album',
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, PanelModule],
   templateUrl: './album.component.html',
   styleUrl: './album.component.css'
 })
@@ -16,6 +17,8 @@ export class AlbumComponent implements OnInit {
   httpService = inject(HttpService);
 
   itemsBreadcrumb: MenuItem[] = [];
+
+  collection : ResultModel | undefined;
 
   ngOnInit() {
     this.httpService
@@ -27,7 +30,7 @@ export class AlbumComponent implements OnInit {
           { label: data.results[0].artistName, route: `/artist/${data.results[0].artistId}` },
           { label: data.results[0].collectionName },
         ];
-
+        this.collection = data.results[0];
       });
   }
 }

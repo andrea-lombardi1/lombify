@@ -27,3 +27,8 @@
   text-align: center;
   flex: 1;
 }
+
+.divider {
+  height: 88px;
+  width: 1px;
+}

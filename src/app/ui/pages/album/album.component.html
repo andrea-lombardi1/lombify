@@ -1,3 +1,12 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
-<p>artist works!</p>
-<p>{{collectionId()}}</p>
+<p-panel header="Album Information">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-4">
+      <img [src]="collection?.artworkUrl100" alt="Album Picture" class="collection-picture" style="width: 100px;" />
+    </div>
+    <div class="p-col-12 p-md-8">
+      <h2>{{collection?.collectionName}}</h2>
+      <p><strong>Artist:</strong> {{collection?.artistName}}</p>
+    </div>
+  </div>
+</p-panel>
