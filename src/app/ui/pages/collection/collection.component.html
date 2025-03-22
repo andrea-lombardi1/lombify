@@ -1,5 +1,11 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
 <div class="divider"></div>
+@if (collectionService.collection.length === 0) {
+<div class="empty">
+  <h1>Empty Collection</h1>
+  <p>Start adding your favorite tracks and artists</p>
+</div>
+} @else {
 <p-table
   [value]="collectionService.collection"
   stripedRows
@@ -11,11 +17,19 @@
   <ng-template #body let-row>
     <tr>
       <td>
+        @if (row.wrapperType === 'track' || row.wrapperType === 'collection') {
+        <p-avatar
+          [image]="row.artworkUrl100"
+          size="xlarge"
+          [style]="{ width: '100px', height: 'auto' }"
+        />
+        } @else {
         <p-avatar
           [label]="row.artistName.charAt(0)"
           size="xlarge"
           [style]="{ width: '100px', height: '100px' }"
         />
+        }
       </td>
       <td>
         <h2>{{ row.artistName }}</h2>
@@ -25,6 +39,7 @@
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          (onClick)="removeFromFavorites(row)"
         >
           <span class="material-symbols" style="font-size: 2rem">
             favorite
@@ -36,6 +51,7 @@
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          (onClick)="removeFromFavorites(row)"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
             account_circle
@@ -45,3 +61,4 @@
     </tr>
   </ng-template>
 </p-table>
+}

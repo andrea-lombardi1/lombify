@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { SearchModelAll } from '../../model/search.model';
+import { ResultModel } from '../../model/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
-  collection: SearchModelAll[] = [];
+  collection: ResultModel[] = [];
   constructor() { }
-  addCollection(item: SearchModelAll) {
+  addCollection(item: ResultModel) {
     this.collection.push(item);
     console.log(this.collection);
 
   }
 
-  removeCollection(item: SearchModelAll) {
+  removeCollection(item: ResultModel) {
     this.collection = this.collection.filter((element) => element !== item);
   }
 
@@ -21,7 +21,7 @@ export class CollectionService {
     return this.collection;
   }
 
-  has(result: SearchModelAll): boolean {
+  has(result: ResultModel): boolean {
     return this.collection.some(
       (element) =>
       element.trackId === result.trackId ||

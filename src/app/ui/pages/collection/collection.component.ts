@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { CollectionService } from '../../../core/service/collection/collection.service';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
+import { ResultModel } from '../../../core/model/search.model';
 
 @Component({
   selector: 'app-collection',
@@ -25,5 +26,9 @@ export class CollectionComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.itemsBreadcrumb = data["breadcrumb"];
     });
+  }
+
+  removeFromFavorites(row: ResultModel) {
+    this.collectionService.removeCollection(row);
   }
 }

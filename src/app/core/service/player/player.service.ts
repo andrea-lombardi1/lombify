@@ -12,6 +12,10 @@ export class PlayerService {
     const fileExtension = fileUrl.split('.').pop()?.toLowerCase();
     if (fileExtension === 'm4a') {
       this.player = new Audio(fileUrl);
+      // Get the length of the audio file
+      this.player.onloadedmetadata = () => {
+        console.log('Audio duration:', this.player?.duration);
+      };
     } else if (fileExtension === 'm4v') {
       this.player = document.createElement('video');
       this.player.src = fileUrl;
@@ -22,7 +26,13 @@ export class PlayerService {
 
   play(): void {
     if (this.player) {
-      this.player.play();
+      // Get the timestamp when the audio resumes playing
+      console.log('Audio resume time:', this.player.currentTime);
+
+      this.increaseVolumeAndPlay();
+      setTimeout(() => {
+        this.decreaseVolumeAndPause();
+      }, 29000 - (this.player.currentTime * 1000));
     } else {
       console.error('Player is not initialized.');
     }
@@ -30,7 +40,7 @@ export class PlayerService {
 
   pause(): void {
     if (this.player) {
-      this.player.pause();
+      this.decreaseVolumeAndPause();
     } else {
       console.error('Player is not initialized.');
     }
@@ -48,6 +58,45 @@ export class PlayerService {
   setVolume(volume: number): void {
     if (this.player) {
       this.player.volume = Math.min(Math.max(volume, 0), 1); // Clamp volume between 0 and 1
+    } else {
+      console.error('Player is not initialized.');
+    }
+  }
+
+  increaseVolumeAndPlay(): void {
+    if (this.player) {
+      this.player.play();
+      this.player.volume = 0;
+      const fadeInInterval = setInterval(() => {
+        if (this.player) {
+          this.player.volume = Math.min(this.player.volume + 0.1, 1);
+          if (this.player.volume === 1) {
+            clearInterval(fadeInInterval);
+          }
+        } else {
+          console.error('Player is not initialized.');
+          clearInterval(fadeInInterval);
+        }
+      }, 100);
+    } else {
+      console.error('Player is not initialized.');
+    }
+  }
+
+  decreaseVolumeAndPause(): void {
+    if (this.player) {
+      const fadeOutInterval = setInterval(() => {
+        if (this.player) {
+          this.player.volume = Math.max(this.player.volume - 0.1, 0);
+          if (this.player.volume === 0) {
+            this.player.pause();
+            clearInterval(fadeOutInterval);
+          }
+        } else {
+          console.error('Player is not initialized.');
+          clearInterval(fadeOutInterval);
+        }
+      }, 100);
     } else {
       console.error('Player is not initialized.');
     }

@@ -1,30 +1,66 @@
 export interface SearchModel {
   resultCount: number;
-  results: SearchModelAll[];
+  results: ResultModel[];
 }
 
-interface SearchModelArtist {
-  wrapperType: string;
-  artistType: string;
-  artistName: string;
-  artistLinkUrl: string;
-  artistId: number;
-  primaryGenreName?: string;
-  primaryGenreId?: number;
-  amgArtistId?: number;
-}
-
-export interface SearchModelAll {
-  wrapperType: string;
-  kind: string;
-  amgArtistId: number;
+export interface ResultModel {
   artistId: number;
   collectionId: number;
   trackId: number;
   artistName: string;
   collectionName: string;
   trackName: string;
-  previewUrl: string;
   artworkUrl100: string;
   releaseDate: string;
+  wrapperType: string;
+}
+
+export enum WrapperType {
+  artist = 'artist',
+  collection = 'collection',
+  track = 'track'
+}
+
+export interface ArtistDto {
+  artistId: number;
+  artistName: string;
+}
+
+export interface AlbumDto {
+  collectionId: number;
+  collectionName: string;
+  releaseDate: string;
+  artworkUrl100: string;
+}
+
+export interface TrackDto {
+  trackId: number;
+  trackName: string;
+  artistName: string;
+  releaseDate: string;
+  artworkUrl100: string;
+}
+
+export interface Artist {
+  artistId: number;
+  artistName: string;
+  primaryGenreName: string;
+  amgArtistId: number;
+}
+
+export interface Album {
+  collectionId: number;
+  collectionName: string;
+  artistId: number;
+  artistName: string;
+  releaseDate: string;
+  artworkUrl100: string;
+  primaryGenreName: string;
+  collectionPrice: number;
+  collectionExplicitness: string;
+  trackCount: number;
+  copyright: string;
+  country: string;
+  currency: string;
+  favorite: boolean;
 }

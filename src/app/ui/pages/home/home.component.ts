@@ -10,7 +10,7 @@ import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
-import { SearchModel, SearchModelAll } from '../../../core/model/search.model';
+import { ResultModel, SearchModel, WrapperType } from '../../../core/model/search.model';
 import { PlayerService } from '../../../core/service/player/player.service';
 import { RouterModule } from '@angular/router';
 import { CollectionService } from '../../../core/service/collection/collection.service';
@@ -30,50 +30,68 @@ import { CommonModule } from '@angular/common';
     SpinnerComponent,
     TableModule,
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  query: string = '';
   httpService = inject(HttpService);
   playerService = inject(PlayerService);
   collectionService = inject(CollectionService);
+
+  // The search query
+  query: string = '';
+  // The timeout for the search query (500ms)
   timeoutQuery: any;
-  results: SearchModel | null = null;
+  // The subscription to the search query
+  subscription: any;
+  // The results of the search
+  data: SearchModel | null = null;
+  // The options for the select filter
   stateOptions: any[] = [
-    { label: 'Artista', value: 'musicArtist' },
-    { label: 'Album', value: 'album' },
-    { label: 'Canzone', value: 'musicTrack' },
+    { label: 'Artista', value: WrapperType.artist },
+    { label: 'Album', value: WrapperType.collection },
+    { label: 'Canzone', value: WrapperType.track },
   ];
 
-  value: string | null = null;
-  data: string[] = [];
+  value: WrapperType | null = null;
 
   ngOnInit() {}
 
   search() {
-    this.results = null;
+    this.data = null;
     clearTimeout(this.timeoutQuery);
     this.timeoutQuery = setTimeout(() => {
       console.log(this.query);
       if (this.query.length < 3) {
         return;
       }
-      this.httpService.search(this.query, this.value).subscribe((data) => {
-        this.results = data;
-        console.log(this.results);
-      });
+      // Clear the subscription
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
+      this.subscription = this.httpService
+        .search(this.query, this.value)
+        .subscribe((data) => {
+          this.data = data;
+          console.log(this.data);
+        });
     }, 500);
   }
 
   playSong(songUrl: string) {
     this.playerService.initializePlayer(songUrl);
     this.playerService.play();
+    // setTimeout(() => {
+    //   this.playerService.pause();
+    // }, 3000);
+    // setTimeout(() => {
+    //   this.playerService.play();
+    // }, 6000);
   }
 
-  addToFavorites(row: SearchModelAll) {
+  addToFavorites(row: ResultModel) {
     this.collectionService.addCollection(row);
   }
 }
