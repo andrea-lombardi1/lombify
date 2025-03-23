@@ -9,29 +9,29 @@
     <input
       pInputText
       placeholder="Search"
-      [(ngModel)]="query"
-      (keydown)="search()"
+      [(ngModel)]="searchService.query"
+      (input)="searchService.search()"
       aria-label="search"
       style="width: 100%; max-width: 32rem; height: 40px"
-      [class.ng-invalid]="query.length < 3"
+      [class.ng-invalid]="searchService.query.length < 3"
     />
   </div>
   <div class="end">
     <p-select
-      [options]="stateOptions"
-      [(ngModel)]="value"
+      [options]="searchService.stateOptions"
+      [(ngModel)]="searchService.entity"
       optionLabel="label"
-      optionValue="value"
+      optionValue="searchService.entity"
       [showClear]="true"
       placeholder="Filtra per..."
       aria-labelledby="basic"
-      (onChange)="search()"
+      (onChange)="searchService.search()"
       [style]="{ height: '40px' }"
     />
   </div>
 </div>
 <div class="divider"></div>
-@if (query.length < 3) {
+@if (searchService.query.length < 3) {
 <div class="hero">
   <div class="card">
     <img src="./logo.png" alt="Card" style="margin: auto; max-width: 30rem" />
@@ -39,11 +39,11 @@
     <p>Per la ricerca, scrivi almeno 3 caratteri... buon ascolto!</p>
   </div>
 </div>
-} @else if (!data) {
+} @else if (searchService.loadingComp()) {
 <div class="hero">
   <app-spinner></app-spinner>
 </div>
-} @else if (data.resultCount === 0) {
+} @else if (searchService.dataComp().length === 0) {
 <p-card [style]="{ width: '30rem', overflow: 'hidden', margin: 'auto' }">
   <p-header>
     <img
@@ -57,7 +57,7 @@
 </p-card>
 } @else { @if (!value) {
 <p-table
-  [value]="data.results"
+  [value]="searchService.dataComp()"
   stripedRows
   [tableStyle]="{ margin: '0 0 0 16px', width: 'calc(100% - 32px)' }"
 >
@@ -91,6 +91,7 @@
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          [routerLink]="'/artist/' + row.artistId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
             account_circle
@@ -126,6 +127,7 @@
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          [routerLink]="'/album/' + row.collectionId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
             collections_bookmark
@@ -162,6 +164,7 @@
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
           (click)="playSong(row.previewUrl)"
+          [routerLink]="'/track/' + row.trackId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
             play_circle
@@ -175,7 +178,7 @@
 } @else if (value === 'artist') {
 <!-- Table -->
 <p-table
-  [value]="data.results"
+  [value]="searchService.dataComp()"
   stripedRows
   [tableStyle]="{ margin: '0 0 0 16px', width: 'calc(100% - 16px)' }"
 >
@@ -230,7 +233,7 @@
     gap: 1rem;
   "
 >
-  @for (album of data.results; track album.collectionId) {
+  @for (album of searchService.dataComp(); track album.collectionId) {
   <div
     class="card"
     style="
@@ -262,7 +265,7 @@
     gap: 1rem;
   "
 >
-  @for (track of data.results; track track.trackId) {
+  @for (track of searchService.dataComp(); track track.trackId) {
   <div
     class="card"
     style="

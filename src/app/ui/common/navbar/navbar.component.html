@@ -1,4 +1,5 @@
 <div class="toolbar">
+  <div class="start">
   <p-breadcrumb [model]="items"
   [style]="{ background: 'none' }"
   >
@@ -14,5 +15,19 @@
         }
   </ng-template>
   </p-breadcrumb>
+  </div>
+  <div class="end">
+    <input
+      pInputText
+      placeholder="Search"
+      [(ngModel)]="searchService.query"
+      aria-label="search"
+      style="width: 100%; max-width: 32rem; height: 40px"
+      [class.ng-invalid]="searchService.query.length < 3"
+    />
+    <p-button [routerLink]="'/'" (onClick)="searchService.search()" [style]="{ height: '40px', 'vertical-align': 'middle' }">
+      <span class="material-symbols"> search </span>
+    </p-button>
+  </div>
 </div>
 <div class="divider"></div>

@@ -1,20 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { SearchModel, WrapperType } from '../../model/search.model';
-import { map, Observable } from 'rxjs';
-import { CollectionService } from '../collection/collection.service';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  http = inject(HttpClient);
-  collection = inject(CollectionService);
+  readonly #http = inject(HttpClient);
+
+  readonly #searchURL = 'https://itunes.apple.com/search?country=it&media=music';
+  readonly #lookupURL = 'https://itunes.apple.com/lookup?sort=recent';
+
 
   constructor() {}
 
   search(query: string, entity: WrapperType | null) {
-    const baseUrl = 'https://itunes.apple.com/search?country=it&media=music';
     let entityParam = '&entity=musicArtist,album,musicTrack';
     let attributeParam = '';
     if (entity === WrapperType.artist) {
@@ -29,9 +30,9 @@ export class HttpService {
       entityParam = '&entity=musicTrack';
       attributeParam = '&attribute=songTerm';
     }
-    const url = `${baseUrl}${entityParam}&sort=recent${attributeParam}&term=${query}`;
+    const url = `${this.#searchURL}${entityParam}${attributeParam}&term=${query}`;
 
-    return this.http.get<SearchModel>(url)
+    return this.#http.get<SearchModel>(url)
     .pipe(
       // Sort by release date
       map((data) => ({
@@ -46,7 +47,6 @@ export class HttpService {
   }
 
   lookup(id: number, entity: WrapperType) {
-    const baseUrl = `https://itunes.apple.com/lookup?id=${id}`;
     let entityParam = '&entity=musicArtist,album,musicTrack';
     if (entity === WrapperType.artist) {
       entityParam = '&entity=album';
@@ -54,8 +54,8 @@ export class HttpService {
     if (entity === WrapperType.collection) {
       entityParam = '&entity=song';
     }
-    const url = `${baseUrl}${entityParam}&sort=recent`;
+    const url = `${this.#lookupURL}${entityParam}&id=${id}`;
 
-    return this.http.get<SearchModel>(url);
+    return this.#http.get<SearchModel>(url);
   }
 }
