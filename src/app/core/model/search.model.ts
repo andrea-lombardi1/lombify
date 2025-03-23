@@ -13,6 +13,7 @@ export interface ResultModel {
   artworkUrl100: string;
   releaseDate: string;
   wrapperType: string;
+  previewUrl: string;
 }
 
 export enum WrapperType {
