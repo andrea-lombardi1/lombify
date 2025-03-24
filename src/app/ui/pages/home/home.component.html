@@ -21,7 +21,7 @@
       [options]="searchService.stateOptions"
       [(ngModel)]="searchService.entity"
       optionLabel="label"
-      optionValue="searchService.entity"
+      optionValue="value"
       [showClear]="true"
       placeholder="Filtra per..."
       aria-labelledby="basic"
@@ -55,175 +55,12 @@
   <h1>0 risultati</h1>
   <p>Non ci sono risultati per la tua ricerca... prova con qualcos'altro!</p>
 </p-card>
-} @else { @if (!value) {
-<p-table
-  [value]="searchService.dataComp()"
-  stripedRows
-  [tableStyle]="{ margin: '0 0 0 16px', width: 'calc(100% - 32px)' }"
->
-  <ng-template #body let-row>
-    <tr>
-      @if (row.wrapperType == 'artist') {
-      <td>
-        <p-avatar
-          [label]="row.artistName.charAt(0)"
-          size="xlarge"
-          [style]="{ width: '100px', height: '100px' }"
-        />
-      </td>
-      <td>
-        <h2>{{ row.artistName }}</h2>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (onClick)="addToFavorites(row)"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            favorite
-          </span>
-        </p-button>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          [routerLink]="'/artist/' + row.artistId"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            account_circle
-          </span>
-        </p-button>
-      </td>
-      } @else if (row.wrapperType == 'collection') {
-      <td>
-        <p-avatar
-          [image]="row.artworkUrl100"
-          size="xlarge"
-          [style]="{ width: '100px', height: 'auto' }"
-        />
-      </td>
-      <td>
-        <h2>{{ row.collectionName }}</h2>
-        <h5>{{ row.releaseDate | date : "yyyy" }}</h5>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (onClick)="addToFavorites(row)"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            favorite
-          </span>
-        </p-button>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          [routerLink]="'/album/' + row.collectionId"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            collections_bookmark
-          </span>
-        </p-button>
-      </td>
-      } @else if (row.wrapperType == 'track') {
-      <td>
-        <p-avatar
-          [image]="row.artworkUrl100"
-          size="xlarge"
-          [style]="{ width: '100px', height: 'auto' }"
-        />
-      </td>
-      <td>
-        <h2>{{ row.trackName }}</h2>
-        <h5>{{ row.artistName }}</h5>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (onClick)="addToFavorites(row)"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            favorite
-          </span>
-        </p-button>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (click)="playSong(row)"
-          [routerLink]="'/track/' + row.trackId"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            play_circle
-          </span>
-        </p-button>
-      </td>
-      }
-    </tr>
-  </ng-template>
-</p-table>
-} @else if (value === 'artist') {
+} @else { @if (!searchService.entity) {
+<app-table [data]="searchService.dataComp()" [type]="'picture'"></app-table>
+} @else if (searchService.entity === 'artist') {
 <!-- Table -->
-<p-table
-  [value]="searchService.dataComp()"
-  stripedRows
-  [tableStyle]="{ margin: '0 0 0 16px', width: 'calc(100% - 16px)' }"
->
-  <ng-template #header>
-    <tr></tr>
-  </ng-template>
-  <ng-template #body let-row>
-    <tr>
-      <td>
-        <p-avatar
-          [label]="row.artistName.charAt(0)"
-          size="xlarge"
-          [style]="{ width: '100px', height: '100px' }"
-        />
-      </td>
-      <td>
-        <h2>{{ row.artistName }}</h2>
-        <h5>{{ row.primaryGenreName }}</h5>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            favorite
-          </span>
-        </p-button>
-      </td>
-      <td>
-        <p-button
-          [rounded]="true"
-          severity="secondary"
-          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-        >
-          <span class="material-symbols-outlined" style="font-size: 2rem">
-            account_circle
-          </span>
-        </p-button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-} @else if (value === 'collection') {
+<app-table [data]="searchService.dataComp()" [type]="'char'"></app-table>
+} @else if (searchService.entity === 'collection') {
 <!-- Card grid -->
 <div
   class="card-grid"
@@ -231,6 +68,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
+    margin: 0 0 0 16px;
+    width: calc(100% - 32px);
   "
 >
   @for (album of searchService.dataComp(); track album.collectionId) {
@@ -255,7 +94,7 @@
   </div>
   }
 </div>
-} @else if (value === 'track') {
+} @else if (searchService.entity === 'track') {
 <!-- Card grid -->
 <div
   class="card-grid"
@@ -297,9 +136,9 @@
         'font-size': '1.5rem',
         padding: '1rem',
       }"
-      (click)="addToFavorites(track)"
+
       >
-      <span class="material-symbols-outlined" style="font-size: 2rem">
+      <span [class.material-symbols]="track.favorite" [class.material-symbols-outlined]="!track.favorite" style="font-size: 2rem">
         favorite
       </span>
       </p-button>
@@ -319,5 +158,3 @@
   }
 </div>
 } }
-
-<div class="divider"></div>

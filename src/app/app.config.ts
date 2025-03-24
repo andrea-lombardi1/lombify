@@ -7,6 +7,7 @@ import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { definePreset } from '@primeng/themes';
+import { MessageService } from 'primeng/api';
 
 const Indigo = definePreset(Aura, {
   semantic: {
@@ -31,6 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(),
     provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
         theme: {
             preset: Indigo,

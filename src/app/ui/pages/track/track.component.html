@@ -23,14 +23,7 @@
         </span>
       </p-button>
       <div class="w-full mt-4">
-        <input
-          type="range"
-          min="0"
-          [max]="30000"
-          class="w-full"
-          [value]="(playerService.playerComp()?.currentTime ?? 0) * 1000"
-          disabled
-        />
+        <progress [value]="(playerService.playerComp()?.currentTime ?? 0) * 1000" max="30000" class="w-full"></progress>
         <div class="flex justify-between text-sm mt-1">
           <span>{{ (playerService.playerComp()?.currentTime ?? 0) * 1000 | date : "mm:ss" }}</span>
           <span>{{ 30000 | date : "mm:ss" }}</span>

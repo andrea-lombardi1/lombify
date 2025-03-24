@@ -12,6 +12,7 @@
 }
 .toolbar .start {
   text-align: start;
+  height: 100%;
   flex: 1;
 }
 
@@ -22,6 +23,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  min-width: 200px;
 }
 
 .toolbar .center {

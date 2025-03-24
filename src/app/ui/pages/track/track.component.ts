@@ -8,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '../../../core/service/player/player.service';
 import { FormsModule } from '@angular/forms';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { Router } from '@angular/router';
+import { SearchService } from '../../../core/service/search/search.service';
 
 @Component({
   selector: 'app-track',
@@ -17,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     ButtonModule,
     CommonModule,
     FormsModule,
+    ProgressBarModule,
   ],
   templateUrl: './track.component.html',
   styleUrl: './track.component.css',
@@ -24,18 +28,21 @@ import { FormsModule } from '@angular/forms';
 export class TrackComponent implements OnInit {
   readonly trackId = input<number>();
 
-  httpService = inject(HttpService);
-  playerService = inject(PlayerService);
+  readonly searchService = inject(SearchService);
+  readonly playerService = inject(PlayerService);
+  readonly router = inject(Router);
 
   itemsBreadcrumb: MenuItem[] = [];
 
   track: ResultModel | undefined;
 
   ngOnInit() {
-    this.httpService
+    this.searchService
       .lookup(this.trackId() ?? -1, WrapperType.track)
       .subscribe((data) => {
-        console.log(data);
+        if (data.resultCount === 0) {
+          this.router.navigate(['/404']);
+        }
         this.itemsBreadcrumb = [
           { label: 'Home', route: '/' },
           {

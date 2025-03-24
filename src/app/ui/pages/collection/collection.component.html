@@ -31,6 +31,11 @@
         }
       </td>
       <td>
+        @if (row.wrapperType === 'track') {
+        <h2>{{ row.trackName }}</h2>
+        } @else if (row.wrapperType === 'collection') {
+        <h2>{{ row.collectionName }}</h2>
+        }
         <h2>{{ row.artistName }}</h2>
       </td>
       <td>
@@ -46,16 +51,41 @@
         </p-button>
       </td>
       <td>
+        @if (row.wrapperType === 'track') {
         <p-button
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (onClick)="removeFromFavorites(row)"
+          (click)="playSong(row)"
+          [routerLink]="'/track/' + row.trackId"
+        >
+          <span class="material-symbols-outlined" style="font-size: 2rem">
+            play_circle
+          </span>
+        </p-button>
+        } @else if (row.wrapperType === 'collection') {
+        <p-button
+          [rounded]="true"
+          severity="secondary"
+          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          [routerLink]="'/album/' + row.collectionId"
+        >
+          <span class="material-symbols-outlined" style="font-size: 2rem">
+            collections_bookmark
+          </span>
+        </p-button>
+        } @else {
+        <p-button
+          [rounded]="true"
+          severity="secondary"
+          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          [routerLink]="'/artist/' + row.artistId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
             account_circle
           </span>
         </p-button>
+        }
       </td>
     </tr>
   </ng-template>

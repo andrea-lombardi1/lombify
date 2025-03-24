@@ -7,6 +7,8 @@
     <div class="p-col-12 p-md-8">
       <h2>{{collection?.collectionName}}</h2>
       <p><strong>Artist:</strong> {{collection?.artistName}}</p>
+      <p><strong>Tracks:</strong> {{collection?.trackCount}}</p>
     </div>
   </div>
 </p-panel>
+<app-table [data]="tracks" [type]="'number'"></app-table>

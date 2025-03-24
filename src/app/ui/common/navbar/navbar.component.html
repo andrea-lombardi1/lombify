@@ -1,20 +1,18 @@
 <div class="toolbar">
   <div class="start">
-  <p-breadcrumb [model]="items"
-  [style]="{ background: 'none' }"
-  >
-    <ng-template #item let-item>
-      @if (item.route) {
-          <a [routerLink]="item.route" class="p-breadcrumb-item-link">
-              <span>{{ item.label }}</span>
-          </a>
+    <p-breadcrumb [model]="items" [style]="{ background: 'none', 'white-space': 'nowrap' }">
+      <ng-template #item let-item>
+        @if (item.route) {
+        <a [routerLink]="item.route" class="p-breadcrumb-item-link">
+          <span>{{ item.label }}</span>
+        </a>
         } @else {
-          <a>
-              <span>{{ item.label }}</span>
-          </a>
+        <a>
+          <span>{{ item.label }}</span>
+        </a>
         }
-  </ng-template>
-  </p-breadcrumb>
+      </ng-template>
+    </p-breadcrumb>
   </div>
   <div class="end">
     <input
@@ -24,8 +22,13 @@
       aria-label="search"
       style="width: 100%; max-width: 32rem; height: 40px"
       [class.ng-invalid]="searchService.query.length < 3"
+      (keydown.enter)="searchService.search(); router.navigate(['/'])"
     />
-    <p-button [routerLink]="'/'" (onClick)="searchService.search()" [style]="{ height: '40px', 'vertical-align': 'middle' }">
+    <p-button
+      [routerLink]="'/'"
+      (onClick)="searchService.search()"
+      [style]="{ height: '40px' }"
+    >
       <span class="material-symbols"> search </span>
     </p-button>
   </div>

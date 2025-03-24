@@ -1,8 +1,10 @@
+import { map } from 'rxjs';
 import {
   ResultModel,
   SearchModel,
   WrapperType,
 } from '../../model/search.model';
+import { CollectionService } from '../collection/collection.service';
 import { HttpService } from './../http/http.service';
 import { computed, inject, Injectable, signal } from '@angular/core';
 
@@ -11,6 +13,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 })
 export class SearchService {
   readonly #httpService = inject(HttpService);
+  readonly #collectionService = inject(CollectionService);
 
   query = '';
   entity: WrapperType | null = null;
@@ -45,9 +48,49 @@ export class SearchService {
       this.#subscription = this.#httpService
         .search(this.query, this.entity)
         .subscribe((response: SearchModel) => {
-          this.#data.update(() => response.results);
+          const results = response.results.map((result) => {
+            result.favorite = this.#collectionService.collection.some(
+              (element) => {
+                if (element.wrapperType == 'artist') {
+                  return element.artistId === result.artistId;
+                }
+                if (element.wrapperType == 'collection') {
+                  return element.collectionId === result.collectionId;
+                }
+                if (element.wrapperType == 'track') {
+                  return element.trackId === result.trackId;
+                }
+                return false;
+              }
+            );
+            return result;
+          });
+          this.#data.update(() => results);
           this.#loading.update(() => false);
         });
     }, 500);
+  }
+
+  lookup(id: number, wrapperType: WrapperType) {
+    return this.#httpService.lookup(id, wrapperType).pipe(
+      map((response: SearchModel) => {
+        const results = response.results.map((result) => ({
+          ...result,
+          favorite: this.#collectionService.collection.some((element) => {
+            switch (element.wrapperType) {
+              case 'artist':
+                return element.artistId === result.artistId;
+              case 'collection':
+                return element.collectionId === result.collectionId;
+              case 'track':
+                return element.trackId === result.trackId;
+              default:
+                return false;
+            }
+          }),
+        }));
+        return { resultCount: response.resultCount, results };
+      })
+    );
   }
 }

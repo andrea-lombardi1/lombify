@@ -56,7 +56,7 @@ export class PlayerService {
       clearTimeout(this.currentTimeTimeout);
       this.currentTimeTimeout = setTimeout(() => {
         this.decreaseVolumeAndPause();
-      }, 29000 - this.#playerSignal()!.currentTime * 1000);
+      }, 29100 - this.#playerSignal()!.currentTime * 1000);
     } else {
       this.initializePlayer(this.#songInfo()!);
       this.play();

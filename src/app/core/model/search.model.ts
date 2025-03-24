@@ -15,12 +15,20 @@ export interface ResultModel {
   releaseDate: string;
   wrapperType: string;
   previewUrl: string;
+  favorite: boolean;
+  trackCount: number;
 }
 
 export enum WrapperType {
   artist = 'artist',
   collection = 'collection',
   track = 'track'
+}
+
+export enum TableType {
+  none = 'none',
+  picture = 'picture',
+  number = 'number',
 }
 
 export interface ArtistDto {

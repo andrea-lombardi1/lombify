@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { SearchService } from '../../../core/service/search/search.service';
@@ -21,6 +21,7 @@ import { ButtonModule } from 'primeng/button';
 export class NavbarComponent implements OnInit {
   @Input() items: MenuItem[] | undefined;
   readonly searchService = inject(SearchService);
+  readonly router = inject(Router);
 
   home: MenuItem | undefined;
   value: string | undefined;

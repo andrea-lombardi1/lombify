@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { CollectionService } from '../../../core/service/collection/collection.service';
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../core/service/search/search.service';
+import { TableComponent } from "../../common/table/table.component";
 
 @Component({
   selector: 'app-home',
@@ -32,29 +33,11 @@ import { SearchService } from '../../../core/service/search/search.service';
     TableModule,
     RouterModule,
     CommonModule,
-  ],
+    TableComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  httpService = inject(HttpService);
-  playerService = inject(PlayerService);
-  collectionService = inject(CollectionService);
   readonly searchService = inject(SearchService);
-
-  value: WrapperType | null = null;
-
-  playSong(song: ResultModel) {
-    this.playerService.initializePlayer(song);
-    // setTimeout(() => {
-    //   this.playerService.pause();
-    // }, 3000);
-    // setTimeout(() => {
-    //   this.playerService.play();
-    // }, 6000);
-  }
-
-  addToFavorites(row: ResultModel) {
-    this.collectionService.addCollection(row);
-  }
 }
