@@ -40,6 +40,5 @@ export class TableComponent {
         clearInterval(playSongInteval);
       }
     }, 10);
-
   }
 }

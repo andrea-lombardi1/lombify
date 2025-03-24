@@ -22,11 +22,6 @@ export class PlayerService {
   initializePlayer(song: ResultModel): void {
     // Set the song info
     this.#songInfo.set(song);
-    // Get the file extension
-    const fileExtension = song.previewUrl.split('.').pop()?.toLowerCase();
-
-    if (fileExtension === 'm4a') {
-      // Check if the player is already initialized with the same song
       if (
         this.#playerSignal() &&
         this.#playerSignal()!.src === song.previewUrl
@@ -40,14 +35,6 @@ export class PlayerService {
           this.#playerSignal.set(new Audio(song.previewUrl));
         }
       }
-    } else if (fileExtension === 'm4v') {
-      this.player = document.createElement('video');
-      this.player.src = song.previewUrl;
-    } else {
-      throw new Error(
-        'Unsupported file format. Only .m4a and .m4v are supported.'
-      );
-    }
   }
 
   play(): void {
