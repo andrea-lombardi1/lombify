@@ -51,16 +51,16 @@ export class SearchService {
           const results = response.results.map((result) => {
             result.favorite = this.#collectionService.collection.some(
               (element) => {
-                if (element.wrapperType == 'artist') {
-                  return element.artistId === result.artistId;
+                switch (result.wrapperType) {
+                  case 'artist':
+                    return element.artistId === result.artistId;
+                  case 'collection':
+                    return element.collectionId === result.collectionId;
+                  case 'track':
+                    return element.trackId === result.trackId;
+                  default:
+                    return false;
                 }
-                if (element.wrapperType == 'collection') {
-                  return element.collectionId === result.collectionId;
-                }
-                if (element.wrapperType == 'track') {
-                  return element.trackId === result.trackId;
-                }
-                return false;
               }
             );
             return result;
@@ -77,7 +77,7 @@ export class SearchService {
         const results = response.results.map((result) => ({
           ...result,
           favorite: this.#collectionService.collection.some((element) => {
-            switch (element.wrapperType) {
+            switch (result.wrapperType) {
               case 'artist':
                 return element.artistId === result.artistId;
               case 'collection':
