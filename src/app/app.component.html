@@ -1,1 +1,4 @@
 <router-outlet />
+@if (playerService.playerComp()?.currentTime && !router.url.startsWith('/track')) {
+  <app-bottom-bar></app-bottom-bar>
+}

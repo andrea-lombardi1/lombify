@@ -1,4 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
+import { ResultModel } from '../../model/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +13,36 @@ export class PlayerService {
   readonly #currentTime = signal<number>(0);
   readonly currentTimeComp = computed(() => this.#currentTime());
   private currentTimeInterval: any = null;
-  readonly #playerState = signal<boolean>(false);
-  readonly playerStateComp = computed(() => this.#playerState());
+  private currentTimeTimeout: any = null;
+  readonly #songInfo = signal<ResultModel | null>(null);
+  readonly songInfoComp = computed(() => this.#songInfo());
 
   constructor() {}
 
-  initializePlayer(fileUrl: string): void {
-    const fileExtension = fileUrl.split('.').pop()?.toLowerCase();
+  initializePlayer(song: ResultModel): void {
+    // Set the song info
+    this.#songInfo.set(song);
+    // Get the file extension
+    const fileExtension = song.previewUrl.split('.').pop()?.toLowerCase();
+
     if (fileExtension === 'm4a') {
-      this.#playerSignal.set(new Audio(fileUrl));
+      // Check if the player is already initialized with the same song
+      if (
+        this.#playerSignal() &&
+        this.#playerSignal()!.src === song.previewUrl
+      ) {
+        return;
+      } else {
+        if (this.#playerSignal()) {
+          this.#playerSignal()!.src = '';
+          this.#playerSignal.update(() => new Audio(song.previewUrl));
+        } else {
+          this.#playerSignal.set(new Audio(song.previewUrl));
+        }
+      }
     } else if (fileExtension === 'm4v') {
       this.player = document.createElement('video');
-      this.player.src = fileUrl;
+      this.player.src = song.previewUrl;
     } else {
       throw new Error(
         'Unsupported file format. Only .m4a and .m4v are supported.'
@@ -34,26 +53,31 @@ export class PlayerService {
   play(): void {
     if (this.#playerSignal()) {
       this.increaseVolumeAndPlay();
-      setTimeout(() => {
+      clearTimeout(this.currentTimeTimeout);
+      this.currentTimeTimeout = setTimeout(() => {
         this.decreaseVolumeAndPause();
-      }, 29000 - (this.#playerSignal()?.currentTime ?? 0) * 1000);
+      }, 29000 - this.#playerSignal()!.currentTime * 1000);
     } else {
-      console.error('Player is not initialized.');
+      this.initializePlayer(this.#songInfo()!);
+      this.play();
     }
   }
 
   pause(): void {
     if (this.#playerSignal()) {
+      clearTimeout(this.currentTimeTimeout);
       this.decreaseVolumeAndPause();
     } else {
-      console.error('Player is not initialized.');
+      this.initializePlayer(this.#songInfo()!);
+      this.pause();
     }
   }
 
   stop(): void {
-    if (this.player) {
-      this.player.pause();
-      this.player.currentTime = 0;
+    if (this.#playerSignal()) {
+      this.#playerSignal()!.pause();
+      this.#playerSignal()!.currentTime = 0;
+      this.updateCurrentTime(false);
     } else {
       console.error('Player is not initialized.');
     }
@@ -69,7 +93,6 @@ export class PlayerService {
 
   increaseVolumeAndPlay(): void {
     if (this.#playerSignal()) {
-      this.#playerState.set(true);
       this.#playerSignal()!.play();
       this.updateCurrentTime(true);
       this.#playerSignal()!.volume = 0;
@@ -95,7 +118,6 @@ export class PlayerService {
           0
         );
         if (this.#playerSignal()!.volume === 0) {
-          this.#playerState.set(false);
           this.updateCurrentTime(false);
           this.#playerSignal()!.pause();
 

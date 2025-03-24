@@ -44,9 +44,8 @@ export class HomeComponent {
 
   value: WrapperType | null = null;
 
-  playSong(songUrl: string) {
-    this.playerService.initializePlayer(songUrl);
-    this.playerService.play();
+  playSong(song: ResultModel) {
+    this.playerService.initializePlayer(song);
     // setTimeout(() => {
     //   this.playerService.pause();
     // }, 3000);

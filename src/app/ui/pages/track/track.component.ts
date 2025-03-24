@@ -49,7 +49,7 @@ export class TrackComponent implements OnInit {
           { label: data.results[0].trackName },
         ];
         this.track = data.results[0];
-        this.playerService.initializePlayer(this.track.previewUrl);
+        this.playerService.initializePlayer(this.track);
       });
   }
 }

@@ -16,10 +16,10 @@
         [rounded]="true"
         severity="secondary"
         [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-        (onClick)="playerService.playerStateComp() ? playerService.pause() : playerService.play()"
+        (onClick)="playerService.playerComp()?.paused ? playerService.play() : playerService.pause()"
       >
         <span class="material-symbols" style="font-size: 2rem">
-          {{ playerService.playerStateComp() ? 'pause' : 'play_arrow' }}
+          {{ playerService.playerComp()?.paused ? 'play_arrow' : 'pause' }}
         </span>
       </p-button>
       <div class="w-full mt-4">
@@ -40,6 +40,7 @@
         [rounded]="true"
         severity="secondary"
         [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+        (onClick)="playerService.stop()"
       >
         <span class="material-symbols" style="font-size: 2rem"> stop </span>
       </p-button>

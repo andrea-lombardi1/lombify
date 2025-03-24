@@ -163,7 +163,7 @@
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (click)="playSong(row.previewUrl)"
+          (click)="playSong(row)"
           [routerLink]="'/track/' + row.trackId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">
@@ -321,21 +321,3 @@
 } }
 
 <div class="divider"></div>
-<div class="bottombar">
-  <div class="start">
-    <p-button>
-      <span class="material-symbols"> play_arrow </span>
-    </p-button>
-  </div>
-  <div class="center">
-    <p>Titolo</p>
-  </div>
-  <div class="end">
-    <p-button>
-      <span class="material-symbols"> expand_content </span>
-    </p-button>
-    <p-button>
-      <span class="material-symbols"> close </span>
-    </p-button>
-  </div>
-</div>

@@ -10,6 +10,7 @@ export interface ResultModel {
   artistName: string;
   collectionName: string;
   trackName: string;
+  artworkUrl60: string;
   artworkUrl100: string;
   releaseDate: string;
   wrapperType: string;
