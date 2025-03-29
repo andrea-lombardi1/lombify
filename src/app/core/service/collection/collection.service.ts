@@ -7,10 +7,11 @@ import { MessageService } from 'primeng/api';
 })
 export class CollectionService {
   messageService = inject(MessageService);
-  collection: ResultModel[] = [];
+  collection: ResultModel[] = JSON.parse(localStorage.getItem('collection') || '[]') || [];
   constructor() { }
   addCollection(item: ResultModel) {
     this.collection.push(item);
+    localStorage.setItem('collection', JSON.stringify(this.collection));
     let summary = '';
     let detail = '';
     switch (item.wrapperType) {
@@ -32,6 +33,7 @@ export class CollectionService {
 
   removeCollection(item: ResultModel) {
     this.collection = this.collection.filter((element) => element !== item);
+    localStorage.setItem('collection', JSON.stringify(this.collection));
     let summary = '';
     let detail = '';
     switch (item.wrapperType) {
