@@ -1,0 +1,20 @@
+{
+  "/search": {
+    "target": "https://itunes.apple.com/search",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/search": ""
+    }
+  },
+  "/lookup": {
+    "target": "https://itunes.apple.com/lookup",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/lookup": ""
+    }
+  }
+}

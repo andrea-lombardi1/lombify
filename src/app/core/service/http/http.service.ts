@@ -9,8 +9,8 @@ import { map } from 'rxjs';
 export class HttpService {
   readonly #http = inject(HttpClient);
 
-  readonly #searchURL = 'https://itunes.apple.com/search?country=it&media=music';
-  readonly #lookupURL = 'https://itunes.apple.com/lookup?sort=recent';
+  readonly #searchURL = '/search?country=it&media=music';
+  readonly #lookupURL = '/lookup?sort=recent';
 
 
   constructor() {}
