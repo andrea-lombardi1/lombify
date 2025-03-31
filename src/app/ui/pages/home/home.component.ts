@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { SearchService } from '../../../core/service/search/search.service';
 import { TableComponent } from "../../common/table/table.component";
 import { CardComponent } from "../../common/card/card.component";
+import { HeroComponent } from "../../common/hero/hero.component";
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,8 @@ import { CardComponent } from "../../common/card/card.component";
     RouterModule,
     CommonModule,
     TableComponent,
-    CardComponent
+    CardComponent,
+    HeroComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

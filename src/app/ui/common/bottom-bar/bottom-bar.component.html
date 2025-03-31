@@ -2,7 +2,8 @@
 <div class="bottombar">
   <div class="start">
     <p-button
-    (onClick)="playerService.playerComp()?.paused ? playerService.play() : playerService.pause()">
+    (onClick)="playerService.playerComp()?.paused ? playerService.play() : playerService.pause()"
+      [style]="{ height: '40px' }">
       <span class="material-symbols"> {{ playerService.playerComp()?.paused ? 'play_arrow' : 'pause' }} </span>
     </p-button>
     <img [src]="playerService.songInfoComp()?.artworkUrl60" alt="" class="w-10 rounded-lg">
@@ -12,11 +13,12 @@
   </div>
   <div class="end">
       <span>{{ (playerService.playerComp()?.currentTime ?? 0) * 1000 | date : "mm:ss" }} / {{ 30000 | date : "mm:ss" }}</span>
-    <p-button [routerLink]="['/track/', playerService.songInfoComp()?.trackId]">
+    <p-button [routerLink]="['/track/', playerService.songInfoComp()?.trackId]"
+      [style]="{ height: '40px' }">
       <span class="material-symbols"> expand_content </span>
     </p-button>
     <p-button
-    (onClick)="playerService.stop()">
+    (onClick)="playerService.stop()"      [style]="{ height: '40px' }">
       <span class="material-symbols"> close </span>
     </p-button>
   </div>

@@ -67,7 +67,11 @@
       </td>
       <td>
         <h2>{{ row.collectionName }}</h2>
+        @if (type() === 'collection') {
+        <h5>{{ row.artistName }}</h5>
+        } @else {
         <h5>{{ row.releaseDate | date : "yyyy" }}</h5>
+        }
       </td>
       <td>
         <p-button

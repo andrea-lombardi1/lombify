@@ -8,6 +8,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { ResultModel } from '../../../core/model/search.model';
 import { PlayerService } from '../../../core/service/player/player.service';
+import { TableComponent } from "../../common/table/table.component";
+import { HeroComponent } from "../../common/hero/hero.component";
 
 @Component({
   selector: 'app-collection',
@@ -15,8 +17,7 @@ import { PlayerService } from '../../../core/service/player/player.service';
     TableModule,
     AvatarModule,
     ButtonModule,
-    RouterModule
-  ],
+    RouterModule, TableComponent, HeroComponent],
   templateUrl: './collection.component.html',
   styleUrl: './collection.component.css'
 })

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "../../common/navbar/navbar.component";
 import { MenuItem } from 'primeng/api';
+import { HeroComponent } from "../../common/hero/hero.component";
 
 @Component({
   selector: 'app-not-found',
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, HeroComponent],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css'
 })
