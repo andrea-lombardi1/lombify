@@ -10,7 +10,6 @@ export class CollectionService {
   collection: ResultModel[] = JSON.parse(localStorage.getItem('collection') || '[]') || [];
   constructor() { }
   addCollection(item: ResultModel) {
-    item.favorite = true;
     this.collection.push(item);
     localStorage.setItem('collection', JSON.stringify(this.collection));
     let summary = '';
@@ -33,7 +32,7 @@ export class CollectionService {
   }
 
   removeCollection(item: ResultModel) {
-    this.collection = this.collection.filter((element) => element !== item);
+    this.collection = this.collection.filter((element) => element != item);
     localStorage.setItem('collection', JSON.stringify(this.collection));
     let summary = '';
     let detail = '';

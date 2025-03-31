@@ -1,16 +1,32 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
 <div class="border rounded-lg shadow-md p-6 mx-4">
   <div class="flex flex-col items-center">
-    <div class="w-32">
+    <div class="flex gap-8 justify-center items-center">
       <img
         [src]="track?.artworkUrl100"
         alt="Track Picture"
         class="track-picture w-full"
+        style="width: 8rem;"
       />
+      <p-button
+          [rounded]="true"
+          severity="secondary"
+          [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
+          (onClick)="
+            track?.favorite ? removeFromFavorites(track) : addToFavorites(track)
+          "
+        >
+          <span
+            [class.material-symbols]="track?.favorite"
+            [class.material-symbols-outlined]="!track?.favorite"
+            style="font-size: 2rem"
+          >
+            favorite
+          </span>
+        </p-button>
     </div>
-    <h2 class="text-3xl font-bold mt-6">{{ track?.trackName }}</h2>
-    <p class="mt-3 text-lg"><strong>Artist:</strong> {{ track?.artistName }}</p>
-    <p class="text-lg"><strong>Album:</strong> {{ track?.collectionName }}</p>
+    <h2 class="text-4xl font-bold mt-6">{{ track?.trackName }}</h2>
+    <p class="mt-3 text-xl">{{ track?.artistName }}</p>
     <div class="flex items-center justify-center mt-6 space-x-6 w-full">
       <p-button
         [rounded]="true"

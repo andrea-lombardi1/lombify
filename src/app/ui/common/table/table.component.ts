@@ -17,17 +17,17 @@ import { PlayerService } from '../../../core/service/player/player.service';
 export class TableComponent {
   collectionService = inject(CollectionService);
   playerService = inject(PlayerService);
-  @Input() data: any[] = [];
+  readonly data = input.required<ResultModel[]>();
   readonly type = input.required<string>();
 
   addToFavorites(row: ResultModel) {
-    this.collectionService.addCollection(row);
     row.favorite = true;
+    this.collectionService.addCollection(row);
   }
 
   removeFromFavorites(row: ResultModel) {
-    this.collectionService.removeCollection(row);
     row.favorite = false;
+    this.collectionService.removeCollection(row);
   }
 
   playSong(song: ResultModel) {

@@ -18,13 +18,13 @@ export class CardComponent {
   readonly collectionService = inject(CollectionService);
 
   addToFavorites(row: ResultModel) {
-    this.collectionService.addCollection(row);
     row.favorite = true;
+    this.collectionService.addCollection(row);
   }
 
   removeFromFavorites(row: ResultModel) {
-    this.collectionService.removeCollection(row);
     row.favorite = false;
+    this.collectionService.removeCollection(row);
   }
 
   playSong(song: ResultModel) {

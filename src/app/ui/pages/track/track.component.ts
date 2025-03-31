@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../core/service/search/search.service';
+import { CollectionService } from '../../../core/service/collection/collection.service';
 
 @Component({
   selector: 'app-track',
@@ -28,6 +29,7 @@ import { SearchService } from '../../../core/service/search/search.service';
 export class TrackComponent implements OnInit {
   readonly trackId = input<number>();
 
+  readonly collectionService = inject(CollectionService);
   readonly searchService = inject(SearchService);
   readonly playerService = inject(PlayerService);
   readonly router = inject(Router);
@@ -58,5 +60,17 @@ export class TrackComponent implements OnInit {
         this.track = data.results[0];
         this.playerService.initializePlayer(this.track);
       });
+  }
+
+  addToFavorites(row: ResultModel | undefined) {
+    if (!row) return;
+    row.favorite = true;
+    this.collectionService.addCollection(row);
+  }
+
+  removeFromFavorites(row: ResultModel | undefined) {
+    if (!row) return;
+    row.favorite = false;
+    this.collectionService.removeCollection(row);
   }
 }
