@@ -10,6 +10,7 @@ export class CollectionService {
   collection: ResultModel[] = JSON.parse(localStorage.getItem('collection') || '[]') || [];
   constructor() { }
   addCollection(item: ResultModel) {
+    item.favorite = true;
     this.collection.push(item);
     localStorage.setItem('collection', JSON.stringify(this.collection));
     let summary = '';
@@ -32,25 +33,31 @@ export class CollectionService {
   }
 
   removeCollection(item: ResultModel) {
-    this.collection = this.collection.filter((element) => element != item);
-    localStorage.setItem('collection', JSON.stringify(this.collection));
+    console.log('collection', this.collection);
+
     let summary = '';
     let detail = '';
     switch (item.wrapperType) {
       case 'artist':
+        this.collection = this.collection.filter((element) => element.wrapperType !== 'artist' || element.artistId !== item.artistId);
         summary = item.artistName;
         detail = 'Artista rimosso';
         break;
       case 'collection':
+        this.collection = this.collection.filter((element) => (element.wrapperType != 'collection' || element.collectionId != item.collectionId));
         summary = item.collectionName;
         detail = 'Album rimosso';
         break;
       case 'track':
+        this.collection = this.collection.filter((element) => (element.wrapperType != 'track' || element.trackId != item.trackId));
         summary = item.trackName;
         detail = 'Canzone rimossa';
         break;
     }
+    console.log('collection', this.collection);
+    localStorage.setItem('collection', JSON.stringify(this.collection));
     this.messageService.add({severity:'error', summary, detail: `${detail} dai preferiti`});
+    item.favorite = false;
   }
 
   getCollection() {

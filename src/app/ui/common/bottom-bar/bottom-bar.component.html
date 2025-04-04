@@ -12,7 +12,7 @@
     <p>{{ playerService.songInfoComp()?.trackName }} - {{ playerService.songInfoComp()?.artistName }}</p>
   </div>
   <div class="end">
-      <span>{{ (playerService.playerComp()?.currentTime ?? 0) * 1000 | date : "mm:ss" }} / {{ 30000 | date : "mm:ss" }}</span>
+      <span>{{ (playerService.playerComp()?.currentTime ?? 0) * 1000 | date : "mm:ss" }} / {{ (playerService.playerComp()?.duration ?? 0) * 1000 | date : "mm:ss" }}</span>
     <p-button [routerLink]="['/track/', playerService.songInfoComp()?.trackId]"
       [style]="{ height: '40px' }">
       <span class="material-symbols"> expand_content </span>

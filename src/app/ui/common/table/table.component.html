@@ -125,7 +125,7 @@
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
           (onClick)="
-            row.favorite ? removeFromFavorites(row) : addToFavorites(row)
+            row.favorite ? this.collectionService.removeCollection(row) : this.collectionService.addCollection(row)
           "
         >
           <span

@@ -33,6 +33,21 @@ export class SearchService {
 
   constructor() {}
 
+  private isFavorite(result: ResultModel): boolean {
+    return this.#collectionService.collection.some((element) => {
+      switch (result.wrapperType) {
+        case 'artist':
+          return element.wrapperType === result.wrapperType && element.artistId === result.artistId;
+        case 'collection':
+          return element.wrapperType === result.wrapperType && element.collectionId === result.collectionId;
+        case 'track':
+          return element.wrapperType === result.wrapperType && element.trackId === result.trackId;
+        default:
+          return false;
+      }
+    });
+  }
+
   search() {
     this.#data.update(() => []);
     this.#loading.update(() => true);
@@ -49,20 +64,7 @@ export class SearchService {
         .search(this.query, this.entity)
         .subscribe((response: SearchModel) => {
           const results = response.results.map((result) => {
-            result.favorite = this.#collectionService.collection.some(
-              (element) => {
-                switch (result.wrapperType) {
-                  case 'artist':
-                    return element.artistId === result.artistId;
-                  case 'collection':
-                    return element.collectionId === result.collectionId;
-                  case 'track':
-                    return element.trackId === result.trackId;
-                  default:
-                    return false;
-                }
-              }
-            );
+            result.favorite = this.isFavorite(result);
             return result;
           });
           this.#data.update(() => results);
@@ -76,18 +78,7 @@ export class SearchService {
       map((response: SearchModel) => {
         const results = response.results.map((result) => ({
           ...result,
-          favorite: this.#collectionService.collection.some((element) => {
-            switch (result.wrapperType) {
-              case 'artist':
-                return element.artistId === result.artistId;
-              case 'collection':
-                return element.collectionId === result.collectionId;
-              case 'track':
-                return element.trackId === result.trackId;
-              default:
-                return false;
-            }
-          }),
+          favorite: this.isFavorite(result),
         }));
         return { resultCount: response.resultCount, results };
       })

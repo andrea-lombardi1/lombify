@@ -71,12 +71,8 @@ export class TrackComponent implements OnInit {
         this.itemsBreadcrumb = [
           { label: 'Home', route: '/' },
           {
-            label: data.results[0].artistName,
-            route: `/artist/${data.results[0].artistId}`,
-          },
-          {
-            label: data.results[0].collectionName,
-            route: `/album/${data.results[0].collectionId}`,
+            label: 'LAN',
+            route: `/local`,
           },
           { label: data.results[0].trackName },
         ];

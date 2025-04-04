@@ -5,7 +5,6 @@ import { ResultModel } from '../../model/search.model';
   providedIn: 'root',
 })
 export class PlayerService {
-  private player: HTMLAudioElement | HTMLVideoElement | null = null;
   readonly #playerSignal = signal<HTMLAudioElement | HTMLVideoElement | null>(
     null
   );
@@ -24,7 +23,7 @@ export class PlayerService {
     this.#songInfo.set(song);
       if (
         this.#playerSignal() &&
-        this.#playerSignal()!.src === song.previewUrl
+        this.#playerSignal()!.src.includes(song.previewUrl)
       ) {
         return;
       } else {
@@ -43,7 +42,7 @@ export class PlayerService {
       clearTimeout(this.currentTimeTimeout);
       this.currentTimeTimeout = setTimeout(() => {
         this.decreaseVolumeAndPause();
-      }, 29200 - this.#playerSignal()!.currentTime * 1000);
+      }, (this.#playerSignal()!.duration * 1000 - 800) - this.#playerSignal()!.currentTime * 1000);
     } else {
       this.initializePlayer(this.#songInfo()!);
       this.play();
@@ -65,14 +64,6 @@ export class PlayerService {
       this.#playerSignal()!.pause();
       this.#playerSignal()!.currentTime = 0;
       this.updateCurrentTime(false);
-    } else {
-      console.error('Player is not initialized.');
-    }
-  }
-
-  setVolume(volume: number): void {
-    if (this.player) {
-      this.player.volume = Math.min(Math.max(volume, 0), 1); // Clamp volume between 0 and 1
     } else {
       console.error('Player is not initialized.');
     }
