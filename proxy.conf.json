@@ -16,5 +16,23 @@
     "pathRewrite": {
       "^/lookup": ""
     }
+  },
+  "/tracks": {
+    "target": "http://localhost:3000/tracks",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/tracks": ""
+    }
+  },
+  "/app": {
+    "target": "http://localhost:3000/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/app": ""
+    }
   }
 }

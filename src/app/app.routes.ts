@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./ui/pages/collection/collection.component').then(m => m.CollectionComponent),
   },
   {
+    path: 'local',
+    loadComponent: () => import('./ui/pages/local/local.component').then(m => m.LocalComponent),
+  },
+  {
     path: '404',
     loadComponent: () => import('./ui/pages/not-found/not-found.component').then(m => m.NotFoundComponent),
   },

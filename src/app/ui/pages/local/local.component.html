@@ -1,0 +1,6 @@
+<app-navbar [items]="itemsBreadcrumb"></app-navbar>
+@if (localService.dataComp().length === 0) {
+  <app-hero image="collection.png" title="La lista delle canzoni in LAN è vuota" description="Aggiungi i tuoi brani per visualizzarli qui."></app-hero>
+} @else {
+  <app-table type="collection" [data]="localService.dataComp()"></app-table>
+}

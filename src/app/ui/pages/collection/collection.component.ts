@@ -22,9 +22,7 @@ import { HeroComponent } from "../../common/hero/hero.component";
   styleUrl: './collection.component.css'
 })
 export class CollectionComponent implements OnInit {
-  route = inject(ActivatedRoute);
   collectionService = inject(CollectionService);
-  playerService = inject(PlayerService);
   itemsBreadcrumb: MenuItem[] = [];
   ngOnInit() {
     this.itemsBreadcrumb = [
@@ -35,18 +33,5 @@ export class CollectionComponent implements OnInit {
 
   removeFromFavorites(row: ResultModel) {
     this.collectionService.removeCollection(row);
-  }
-
-  playSong(song: ResultModel) {
-    this.playerService.initializePlayer(song);
-    const playSongInteval = setInterval(() => {
-      if (this.playerService.playerComp()) {
-        if (this.playerService.playerComp()!.paused) {
-          this.playerService.play();
-        }
-        clearInterval(playSongInteval);
-      }
-    }, 10);
-
   }
 }

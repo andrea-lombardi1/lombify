@@ -12,6 +12,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../core/service/search/search.service';
 import { CollectionService } from '../../../core/service/collection/collection.service';
+import { LocalService } from '../../../core/service/local/local.service';
 
 @Component({
   selector: 'app-track',
@@ -27,10 +28,11 @@ import { CollectionService } from '../../../core/service/collection/collection.s
   styleUrl: './track.component.css',
 })
 export class TrackComponent implements OnInit {
-  readonly trackId = input<number>();
+  readonly trackId = input<number | string>();
 
   readonly collectionService = inject(CollectionService);
   readonly searchService = inject(SearchService);
+  readonly localService = inject(LocalService);
   readonly playerService = inject(PlayerService);
   readonly router = inject(Router);
 
@@ -39,8 +41,9 @@ export class TrackComponent implements OnInit {
   track: ResultModel | undefined;
 
   ngOnInit() {
+    if (!isNaN(Number(this.trackId()))) {
     this.searchService
-      .lookup(this.trackId() ?? -1, WrapperType.track)
+      .lookup(this.trackId() as number, WrapperType.track)
       .subscribe((data) => {
         if (data.resultCount === 0) {
           this.router.navigate(['/404']);
@@ -60,6 +63,27 @@ export class TrackComponent implements OnInit {
         this.track = data.results[0];
         this.playerService.initializePlayer(this.track);
       });
+    } else {
+      this.localService.getTrackById(this.trackId() as string).subscribe((data) => {
+        if (data.resultCount === 0) {
+          this.router.navigate(['/404']);
+        }
+        this.itemsBreadcrumb = [
+          { label: 'Home', route: '/' },
+          {
+            label: data.results[0].artistName,
+            route: `/artist/${data.results[0].artistId}`,
+          },
+          {
+            label: data.results[0].collectionName,
+            route: `/album/${data.results[0].collectionId}`,
+          },
+          { label: data.results[0].trackName },
+        ];
+        this.track = data.results[0];
+        this.playerService.initializePlayer(this.track);
+      });
+    }
   }
 
   addToFavorites(row: ResultModel | undefined) {
