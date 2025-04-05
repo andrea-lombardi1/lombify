@@ -1,6 +1,9 @@
 <div class="toolbar">
   <div class="start">
-    <p-breadcrumb [model]="items" [style]="{ background: 'none', 'white-space': 'nowrap' }">
+    <p-breadcrumb
+      [model]="items"
+      [style]="{ background: 'none', 'white-space': 'nowrap' }"
+    >
       <ng-template #item let-item>
         @if (item.route) {
         <a [routerLink]="item.route" class="p-breadcrumb-item-link">
@@ -15,6 +18,21 @@
     </p-breadcrumb>
   </div>
   <div class="end">
+    @if (isLanPage()) {
+    <p-button
+      label="Aggiungi"
+      [style]="{ height: '40px' }"
+      (onClick)="this.openDialog.emit()"
+    >
+    <span class="material-symbols"> add </span></p-button>
+
+    <p-button
+      label="Aggiorna"
+      [style]="{ height: '40px' }"
+      (onClick)="this.refresh.emit()"
+    >
+    <span class="material-symbols"> refresh </span></p-button>
+    } @else {
     <input
       pInputText
       placeholder="Search"
@@ -31,6 +49,7 @@
     >
       <span class="material-symbols"> search </span>
     </p-button>
+    }
   </div>
 </div>
 <div class="divider"></div>

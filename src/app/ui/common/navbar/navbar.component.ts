@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, Input, OnInit, output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -6,6 +6,7 @@ import { SearchService } from '../../../core/service/search/search.service';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { LanService } from '../../../core/service/lan/lan.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,9 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
+  readonly isLanPage = input<boolean>(false);
+  openDialog = output<void>();
+  refresh = output<void>();
   @Input() items: MenuItem[] | undefined;
   readonly searchService = inject(SearchService);
   readonly router = inject(Router);
@@ -27,11 +31,6 @@ export class NavbarComponent implements OnInit {
   value: string | undefined;
 
   ngOnInit() {
-
     this.home = { routerLink: '/' };
-  }
-
-  searchContent() {
-    console.log(this.value);
   }
 }

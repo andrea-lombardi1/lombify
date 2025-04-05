@@ -1,4 +1,4 @@
-<app-navbar [items]="itemsBreadcrumb"></app-navbar>
+<app-navbar [items]="itemsBreadcrumb" [isLanPage]="true" (openDialog)="showDialog()" (refresh)="lanService.getTracks()"></app-navbar>
 @if (lanService.loadingComp() === 1) {
 <div class="hero">
   <app-spinner></app-spinner>
@@ -11,9 +11,6 @@
 ></app-hero>
 } @else {
 
-  <div class="flex justify-between items-center p-4 m-4 border-4 border-[#1976d2] rounded-lg">
-    <p-button (click)="showDialog()">
-      <span class="material-symbols"> add </span> Aggiungi</p-button>
       <p-dialog header="Aggiungi canzone" [modal]="true" [(visible)]="visible" [style]="{ width: '32rem' }">
           <div class="flex items-center gap-4 mb-4">
             <p-fileupload #previewUrl mode="basic" chooseLabel="Audio" accept=".mp3,.wav,.m4a,.ogg" maxFileSize="10000000" />
@@ -34,10 +31,6 @@
               <p-button label="Salva" (click)="addTrack(previewUrl, trackName.value, artworkUrl, artistName.value)" [disabled]="!previewUrl.files.length || !artworkUrl.files.length || !trackName.value || !artistName.value" />
           </div>
       </p-dialog>
-    <p-button
-    (onClick)="lanService.getTracks()">
-      <span class="material-symbols"> refresh </span>Aggiorna</p-button>
-  </div>
 
   @if (lanService.dataComp().length === 0) {
 <app-hero
