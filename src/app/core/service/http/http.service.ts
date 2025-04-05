@@ -12,6 +12,7 @@ export class HttpService {
   readonly #searchURL = '/search?country=it&media=music';
   readonly #lookupURL = '/lookup?sort=recent';
   readonly #tracksURL = '/tracks';
+  readonly #uploadURL = '/upload';
 
 
   constructor() {}
@@ -58,6 +59,15 @@ export class HttpService {
     const url = `${this.#lookupURL}${entityParam}&id=${id}`;
 
     return this.#http.get<SearchModel>(url);
+  }
+
+
+  addTrack(formData: FormData) {
+    const url = `${this.#uploadURL}`;
+    return this.#http.post<SearchModel>(url, formData, {
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 
   lanTracks() {

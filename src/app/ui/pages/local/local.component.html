@@ -1,6 +1,50 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
-@if (localService.dataComp().length === 0) {
-  <app-hero image="collection.png" title="La lista delle canzoni in LAN è vuota" description="Aggiungi i tuoi brani per visualizzarli qui."></app-hero>
+@if (localService.loadingComp() === 1) {
+<div class="hero">
+  <app-spinner></app-spinner>
+</div>
+} @else if (localService.loadingComp() === -1) {
+<app-hero
+  image="server.png"
+  title="LAN server non trovato"
+  description="Controlla che il server sia acceso e che la connessione di rete sia attiva."
+></app-hero>
 } @else {
-  <app-table type="collection" [data]="localService.dataComp()"></app-table>
-}
+
+  <div class="flex justify-between items-center p-4 m-4 border-4 border-[#1976d2] rounded-lg">
+    <p-button (click)="showDialog()">
+      <span class="material-symbols"> add </span> Aggiungi</p-button>
+      <p-dialog header="Aggiungi canzone" [modal]="true" [(visible)]="visible" [style]="{ width: '32rem' }">
+          <div class="flex items-center gap-4 mb-4">
+            <p-fileupload #previewUrl mode="basic" chooseLabel="Audio" accept=".mp3,.wav,.m4a,.ogg" maxFileSize="10000000" />
+          </div>
+          <div class="flex items-center gap-4 mb-4">
+              <label for="trackName" class="font-semibold w-40">Nome canzone</label>
+              <input #trackName pInputText id="trackName" class="flex-auto" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-4 mb-4">
+            <p-fileupload #artworkUrl mode="basic" chooseLabel="Immagine" accept=".jpg,.jpeg,.png,.gif" maxFileSize="1000000" />
+          </div>
+          <div class="flex items-center gap-4 mb-8">
+              <label for="artistName" class="font-semibold w-40">Nome artista</label>
+              <input #artistName pInputText id="artistName" class="flex-auto" autocomplete="off" />
+          </div>
+          <div class="flex justify-end gap-2">
+              <p-button label="Cancella" severity="secondary" (click)="visible = false" />
+              <p-button label="Salva" (click)="addTrack(previewUrl, trackName.value, artworkUrl, artistName.value)" [disabled]="!previewUrl.files.length || !artworkUrl.files.length || !trackName.value || !artistName.value" />
+          </div>
+      </p-dialog>
+    <p-button
+    (onClick)="localService.getTracks()">
+      <span class="material-symbols"> refresh </span>Aggiorna</p-button>
+  </div>
+
+  @if (localService.dataComp().length === 0) {
+<app-hero
+  image="collection.png"
+  title="La lista delle canzoni in LAN è vuota"
+  description="Aggiungi i tuoi brani per visualizzarli qui."
+></app-hero>
+} @else {
+<app-table type="collection" [data]="localService.dataComp()"></app-table>
+} }

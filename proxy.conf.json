@@ -17,6 +17,15 @@
       "^/lookup": ""
     }
   },
+  "/upload": {
+    "target": "http://localhost:3000/upload",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/upload": ""
+    }
+  },
   "/tracks": {
     "target": "http://localhost:3000/tracks",
     "secure": false,
