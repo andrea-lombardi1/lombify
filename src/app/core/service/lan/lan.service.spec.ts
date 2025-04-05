@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LocalService } from './local.service';
+import { LanService } from './lan.service';
 
-describe('LocalService', () => {
-  let service: LocalService;
+describe('LanService', () => {
+  let service: LanService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LocalService);
+    service = TestBed.inject(LanService);
   });
 
   it('should be created', () => {

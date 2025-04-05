@@ -12,7 +12,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../core/service/search/search.service';
 import { CollectionService } from '../../../core/service/collection/collection.service';
-import { LocalService } from '../../../core/service/local/local.service';
+import { LanService } from '../../../core/service/lan/lan.service';
 
 @Component({
   selector: 'app-track',
@@ -32,7 +32,7 @@ export class TrackComponent implements OnInit {
 
   readonly collectionService = inject(CollectionService);
   readonly searchService = inject(SearchService);
-  readonly localService = inject(LocalService);
+  readonly lanService = inject(LanService);
   readonly playerService = inject(PlayerService);
   readonly router = inject(Router);
 
@@ -64,7 +64,7 @@ export class TrackComponent implements OnInit {
         this.playerService.initializePlayer(this.track);
       });
     } else {
-      this.localService.getTrackById(this.trackId() as string).subscribe((data) => {
+      this.lanService.getTrackById(this.trackId() as string).subscribe((data) => {
         if (data.resultCount === 0) {
           this.router.navigate(['/404']);
         }
@@ -72,7 +72,7 @@ export class TrackComponent implements OnInit {
           { label: 'Home', route: '/' },
           {
             label: 'LAN',
-            route: `/local`,
+            route: `/lan`,
           },
           { label: data.results[0].trackName },
         ];

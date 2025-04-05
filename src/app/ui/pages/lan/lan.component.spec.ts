@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocalComponent } from './local.component';
+import { LanComponent } from './lan.component';
 
-describe('LocalComponent', () => {
-  let component: LocalComponent;
-  let fixture: ComponentFixture<LocalComponent>;
+describe('LanComponent', () => {
+  let component: LanComponent;
+  let fixture: ComponentFixture<LanComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LocalComponent]
+      imports: [LanComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LocalComponent);
+    fixture = TestBed.createComponent(LanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,9 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
-@if (localService.loadingComp() === 1) {
+@if (lanService.loadingComp() === 1) {
 <div class="hero">
   <app-spinner></app-spinner>
 </div>
-} @else if (localService.loadingComp() === -1) {
+} @else if (lanService.loadingComp() === -1) {
 <app-hero
   image="server.png"
   title="LAN server non trovato"
@@ -35,16 +35,16 @@
           </div>
       </p-dialog>
     <p-button
-    (onClick)="localService.getTracks()">
+    (onClick)="lanService.getTracks()">
       <span class="material-symbols"> refresh </span>Aggiorna</p-button>
   </div>
 
-  @if (localService.dataComp().length === 0) {
+  @if (lanService.dataComp().length === 0) {
 <app-hero
   image="collection.png"
   title="La lista delle canzoni in LAN è vuota"
   description="Aggiungi i tuoi brani per visualizzarli qui."
 ></app-hero>
 } @else {
-<app-table type="collection" [data]="localService.dataComp()"></app-table>
+<app-table type="collection" [data]="lanService.dataComp()"></app-table>
 } }

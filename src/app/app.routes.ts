@@ -23,8 +23,8 @@ export const routes: Routes = [
     loadComponent: () => import('./ui/pages/collection/collection.component').then(m => m.CollectionComponent),
   },
   {
-    path: 'local',
-    loadComponent: () => import('./ui/pages/local/local.component').then(m => m.LocalComponent),
+    path: 'lan',
+    loadComponent: () => import('./ui/pages/lan/lan.component').then(m => m.LanComponent),
   },
   {
     path: '404',

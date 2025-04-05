@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { MenuItem, MessageService } from 'primeng/api';
-import { LocalService } from '../../../core/service/local/local.service';
+import { LanService } from '../../../core/service/lan/lan.service';
 import { HeroComponent } from '../../common/hero/hero.component';
 import { TableComponent } from '../../common/table/table.component';
 import { SpinnerComponent } from '../../common/spinner/spinner.component';
@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 
 @Component({
-  selector: 'app-local',
+  selector: 'app-lan',
   imports: [
     NavbarComponent,
     HeroComponent,
@@ -22,17 +22,17 @@ import { FileUpload, FileUploadModule } from 'primeng/fileupload';
     InputTextModule,
     FileUploadModule,
   ],
-  templateUrl: './local.component.html',
-  styleUrl: './local.component.css',
+  templateUrl: './lan.component.html',
+  styleUrl: './lan.component.css',
 })
-export class LocalComponent implements OnInit {
+export class LanComponent implements OnInit {
   visible: boolean = false;
-  localService = inject(LocalService);
+  lanService = inject(LanService);
   messageService = inject(MessageService);
   itemsBreadcrumb: MenuItem[] = [];
   ngOnInit() {
-    if (this.localService.dataComp().length === 0) {
-      this.localService.getTracks();
+    if (this.lanService.dataComp().length === 0) {
+      this.lanService.getTracks();
     }
     this.itemsBreadcrumb = [{ label: 'Home', route: '/' }, { label: 'LAN' }];
   }
@@ -40,9 +40,9 @@ export class LocalComponent implements OnInit {
     this.visible = true;
   }
   addTrack(trackFile: FileUpload, trackName: string, artistFile: FileUpload, artistName: string) {
-    this.localService.addTrack(trackFile.files[0], trackName, artistFile.files[0], artistName).subscribe({
+    this.lanService.addTrack(trackFile.files[0], trackName, artistFile.files[0], artistName).subscribe({
       next: () => {
-        this.localService.getTracks();
+        this.lanService.getTracks();
       },
       error: () => {
         this.messageService.add({severity:'error', summary: `Errore di caricamento`, detail: `Impossibile caricare la canzone`});

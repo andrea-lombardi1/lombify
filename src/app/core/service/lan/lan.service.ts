@@ -7,7 +7,7 @@ import { HttpService } from '../http/http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LocalService {
+export class LanService {
   readonly #httpService = inject(HttpService);
   readonly #collectionService = inject(CollectionService);
 
