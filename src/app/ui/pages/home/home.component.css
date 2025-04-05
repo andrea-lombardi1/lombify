@@ -12,6 +12,8 @@
 }
 .toolbar .start {
   text-align: start;
+  display: flex;
+  gap: 8px;
   padding: 16px;
   flex: 1;
 }

@@ -13,18 +13,18 @@
 
       <p-dialog header="Aggiungi canzone" [modal]="true" [(visible)]="visible" [style]="{ width: '32rem' }">
           <div class="flex items-center gap-4 mb-4">
-            <p-fileupload #previewUrl mode="basic" chooseLabel="Audio" accept=".mp3,.wav,.m4a,.ogg" maxFileSize="10000000" />
-          </div>
-          <div class="flex items-center gap-4 mb-4">
               <label for="trackName" class="font-semibold w-40">Nome canzone</label>
               <input #trackName pInputText id="trackName" class="flex-auto" autocomplete="off" />
           </div>
           <div class="flex items-center gap-4 mb-4">
-            <p-fileupload #artworkUrl mode="basic" chooseLabel="Immagine" accept=".jpg,.jpeg,.png,.gif" maxFileSize="1000000" />
+            <p-fileupload #previewUrl mode="basic" chooseLabel="Audio" accept=".mp3,.wav,.m4a,.ogg" maxFileSize="10000000" />
           </div>
-          <div class="flex items-center gap-4 mb-8">
+          <div class="flex items-center gap-4 mb-4">
               <label for="artistName" class="font-semibold w-40">Nome artista</label>
               <input #artistName pInputText id="artistName" class="flex-auto" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-4 mb-8">
+            <p-fileupload #artworkUrl mode="basic" chooseLabel="Immagine" accept=".jpg,.jpeg,.png,.gif" maxFileSize="1000000" />
           </div>
           <div class="flex justify-end gap-2">
               <p-button label="Cancella" severity="secondary" (click)="visible = false" />
