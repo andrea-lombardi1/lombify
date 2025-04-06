@@ -3,7 +3,7 @@ import { HttpService } from '../../../core/service/http/http.service';
 import { ResultModel, WrapperType } from '../../../core/model/search.model';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { MenuItem } from 'primeng/api';
-import { TableComponent } from "../../common/table/table.component";
+import { TableComponent } from '../../common/table/table.component';
 import { Router } from '@angular/router';
 import { SearchService } from '../../../core/service/search/search.service';
 
@@ -21,15 +21,29 @@ export class ArtistComponent implements OnInit {
 
   itemsBreadcrumb: MenuItem[] = [];
 
-    artist : ResultModel | undefined;
-    albums: ResultModel[] = [];
+  artist: ResultModel | undefined;
+  albums: ResultModel[] = [];
+  selectedOption: string = 'album';
 
   ngOnInit() {
+    this.fetchData(WrapperType.artist);
+  }
+
+  selectOption(option: string) {
+    if (this.selectedOption !== option) {
+      this.selectedOption = option;
+      const wrapperType = option === 'album' ? WrapperType.artist : WrapperType.collection;
+      this.fetchData(wrapperType);
+    }
+  }
+
+  private fetchData(wrapperType: WrapperType) {
     this.searchService
-      .lookup(this.artistId() ?? -1, WrapperType.artist)
+      .lookup(this.artistId() ?? -1, wrapperType)
       .subscribe((data) => {
         if (data.resultCount === 0) {
           this.router.navigate(['/404']);
+          return;
         }
         this.itemsBreadcrumb = [
           { label: 'Home', route: '/' },

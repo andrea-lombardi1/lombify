@@ -1,16 +1,16 @@
-<div class="toolbar">
-  <div class="start">
-    <p-button [routerLink]="'/collection'" [style]="{ height: '40px' }">
+<div class="toolbar flex-col md:flex-row">
+  <div class="start w-full justify-between md:justify-start">
+    <p-button [routerLink]="'/collection'" [style]="{ height: '40px' }" [label]="'Preferiti'">
       <span class="material-symbols"> favorite </span>
     </p-button>
-    <p-button [routerLink]="'/lan'" [style]="{ height: '40px' }">
+    <p-button [routerLink]="'/lan'" [style]="{ height: '40px' }" [label]="'LAN'">
       <span class="material-symbols"> rss_feed </span>
     </p-button>
   </div>
-  <div class="center">
+  <div class="center w-full">
     <input
       pInputText
-      placeholder="Search"
+      placeholder="Cerca..."
       [(ngModel)]="searchService.query"
       (input)="searchService.search()"
       aria-label="search"
@@ -32,13 +32,11 @@
     />
   </div>
 </div>
-<div class="divider"></div>
+<div class="w-full h-[200px] md:h-[88px]"></div>
 @if (searchService.query.length < 3) {
 <app-hero image="logo.png" title="Lombify" description="Per la ricerca, scrivi almeno 3 caratteri... buon ascolto!"></app-hero>
 } @else if (searchService.loadingComp()) {
-<div class="hero">
-  <app-spinner></app-spinner>
-</div>
+<app-spinner></app-spinner>
 } @else if (searchService.dataComp().length === 0) {
 <app-hero image="not-found.png" title="Nessun risultato" [description]="'Nessun risultato trovato per ' + searchService.query + '... prova con qualcos\'altro!'"></app-hero>
 } @else { @if (!searchService.entity) {

@@ -1,6 +1,5 @@
 .toolbar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   border-bottom: 4px solid #1976d2;
   border-radius: 0 0 8px 8px;
@@ -9,16 +8,23 @@
   width: 100%;
   z-index: 1;
   backdrop-filter: blur(12px);
+  gap: 16px;
+  padding: 16px;
 }
 .toolbar .start {
-  text-align: start;
-  height: 100%;
+  width: 100%;
+  display: flex;
   flex: 1;
+}
+
+.toolbar .endLan {
+  display: flex;
+  gap: 8px;
+  width: 100%;
 }
 
 .toolbar .end {
   text-align: end;
-  padding: 16px;
   flex: 1;
   display: flex;
   justify-content: flex-end;
@@ -29,9 +35,4 @@
 .toolbar .center {
   text-align: center;
   flex: 1;
-}
-
-.divider {
-  height: 88px;
-  width: 1px;
 }

@@ -1,4 +1,4 @@
-<app-navbar [items]="itemsBreadcrumb" [isLanPage]="true" (openDialog)="showDialog()" (refresh)="lanService.getTracks()"></app-navbar>
+<app-navbar [items]="itemsBreadcrumb" [isLanPage]="true" [loading]="lanService.loadingComp() === 0" (openDialog)="showDialog()" (refresh)="lanService.getTracks()"></app-navbar>
 @if (lanService.loadingComp() === 1) {
 <div class="hero">
   <app-spinner></app-spinner>

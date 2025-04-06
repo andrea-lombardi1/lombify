@@ -1,38 +1,65 @@
-<div class="toolbar">
+<!-- NAVBAR STICKY -->
+<div class="toolbar flex-col md:flex-row">
   <div class="start">
+    <!-- BREADCRUMB -->
     <p-breadcrumb
       [model]="items"
-      [style]="{ background: 'none', 'white-space': 'nowrap' }"
+      [style]="{
+        background: 'none',
+        padding: '0',
+        height: '40px',
+        alignItems: 'center',
+        display: 'flex',
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        fontSize: '0.8rem',
+        fontWeight: 'bold'
+      }"
     >
       <ng-template #item let-item>
         @if (item.route) {
         <a [routerLink]="item.route" class="p-breadcrumb-item-link">
-          <span>{{ item.label }}</span>
+          <span>{{
+            item.label.length > 16
+              ? item.label.substring(0, 16) + "..."
+              : item.label
+          }}</span>
         </a>
         } @else {
         <a>
-          <span>{{ item.label }}</span>
+          <span>{{
+            item.label.length > 16
+              ? item.label.substring(0, 16) + "..."
+              : item.label
+          }}</span>
         </a>
         }
       </ng-template>
     </p-breadcrumb>
   </div>
-  <div class="end">
-    @if (isLanPage()) {
+  @if (isLanPage()) {
+  <!-- LAN PAGE -->
+  <div class="endLan justify-around md:justify-end">
+    @if (loading()) {
     <p-button
       label="Aggiungi"
       [style]="{ height: '40px' }"
       (onClick)="this.openDialog.emit()"
     >
-    <span class="material-symbols"> add </span></p-button>
-
+      <span class="material-symbols"> add </span></p-button
+    >
+    }
     <p-button
       label="Aggiorna"
       [style]="{ height: '40px' }"
       (onClick)="this.refresh.emit()"
     >
-    <span class="material-symbols"> refresh </span></p-button>
-    } @else {
+      <span class="material-symbols"> refresh </span></p-button
+    >
+  </div>
+  } @else {
+  <!-- OTHER PAGES -->
+  <div class="end">
     <input
       pInputText
       placeholder="Search"
@@ -49,7 +76,8 @@
     >
       <span class="material-symbols"> search </span>
     </p-button>
-    }
   </div>
+  }
 </div>
-<div class="divider"></div>
+<!-- DIVIDER -->
+<div class="w-full h-[144px] md:h-[88px]"></div>

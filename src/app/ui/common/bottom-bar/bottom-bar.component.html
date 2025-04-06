@@ -6,10 +6,12 @@
       [style]="{ height: '40px' }">
       <span class="material-symbols"> {{ playerService.playerComp()?.paused ? 'play_arrow' : 'pause' }} </span>
     </p-button>
-    <img [src]="playerService.songInfoComp()?.artworkUrl60" alt="" class="w-10 rounded-lg">
+    <img [src]="playerService.songInfoComp()?.artworkUrl60 ?? '/track.png'"
+      [style]="{ width: '40px', height: '40px', background: 'white', objectFit: 'cover' }"
+    alt="" class="rounded-md">
   </div>
   <div class="center">
-    <p>{{ playerService.songInfoComp()?.trackName }} - {{ playerService.songInfoComp()?.artistName }}</p>
+    <p>{{ playerService.songInfoComp()?.trackName ?? 'Canzone' }} - {{ playerService.songInfoComp()?.artistName }}</p>
   </div>
   <div class="end">
       <span>{{ (playerService.playerComp()?.currentTime ?? 0) * 1000 | date : "mm:ss" }} / {{ (playerService.playerComp()?.duration ?? 0) * 1000 | date : "mm:ss" }}</span>

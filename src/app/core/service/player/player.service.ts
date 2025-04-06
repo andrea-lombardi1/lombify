@@ -13,50 +13,53 @@ export class PlayerService {
   readonly currentTimeComp = computed(() => this.#currentTime());
   private currentTimeInterval: any = null;
   private currentTimeTimeout: any = null;
+  private fadeInInterval: any = null;
+  private fadeOutInterval: any = null;
   readonly #songInfo = signal<ResultModel | null>(null);
   readonly songInfoComp = computed(() => this.#songInfo());
 
   constructor() {}
 
   initializePlayer(song: ResultModel): void {
-    // Set the song info
-    this.#songInfo.set(song);
-      if (
-        this.#playerSignal() &&
-        this.#playerSignal()!.src.includes(song.previewUrl)
-      ) {
-        return;
+    if (this.songInfoComp()?.previewUrl !== song.previewUrl) {
+      // Set the song info
+      this.#songInfo.set(song);
+      if (this.#playerSignal()) {
+        this.#playerSignal()!.src = '';
+        this.#playerSignal.update(() => new Audio(song.previewUrl));
       } else {
-        if (this.#playerSignal()) {
-          this.#playerSignal()!.src = '';
-          this.#playerSignal.update(() => new Audio(song.previewUrl));
-        } else {
-          this.#playerSignal.set(new Audio(song.previewUrl));
-        }
+        this.#playerSignal.set(new Audio(song.previewUrl));
       }
-  }
-
-  play(): void {
-    if (this.#playerSignal()) {
-      this.increaseVolumeAndPlay();
-      clearTimeout(this.currentTimeTimeout);
-      this.currentTimeTimeout = setTimeout(() => {
-        this.decreaseVolumeAndPause();
-      }, (this.#playerSignal()!.duration * 1000 - 800) - this.#playerSignal()!.currentTime * 1000);
-    } else {
-      this.initializePlayer(this.#songInfo()!);
-      this.play();
     }
   }
+
+  play(song?: ResultModel): void {
+    if (song) {
+      if (this.songInfoComp()?.previewUrl !== song.previewUrl) {
+        this.initializePlayer(song);
+        this.play();
+        return;
+      }
+    } else {
+      this.increaseVolumeAndPlay();
+      this.startCurrentTimeTimeout();
+    }
+  }
+
+  startCurrentTimeTimeout(): void {
+    if (Number.isNaN(this.#playerSignal()!.duration)) {
+      return;
+    }
+    clearTimeout(this.currentTimeTimeout);
+    this.currentTimeTimeout = setTimeout(() => {
+      this.decreaseVolumeAndPause();
+    }, this.#playerSignal()!.duration * 1000 - 800 - this.#playerSignal()!.currentTime * 1000);
+  }
+
 
   pause(): void {
-    if (this.#playerSignal()) {
-      clearTimeout(this.currentTimeTimeout);
-      this.decreaseVolumeAndPause();
-    } else {
-      this.initializePlayer(this.#songInfo()!);
-      this.pause();
-    }
+    clearTimeout(this.currentTimeTimeout);
+    this.decreaseVolumeAndPause();
   }
 
   stop(): void {
@@ -70,50 +73,52 @@ export class PlayerService {
   }
 
   increaseVolumeAndPlay(): void {
-    if (this.#playerSignal()) {
-      this.#playerSignal()!.play();
-      this.updateCurrentTime(true);
-      this.#playerSignal()!.volume = 0;
-      const fadeInInterval = setInterval(() => {
-        this.#playerSignal()!.volume = Math.min(
-          this.#playerSignal()!.volume + 0.1,
-          1
-        );
-        if (this.#playerSignal()!.volume === 1) {
-          clearInterval(fadeInInterval);
-        }
-      }, 100);
-    } else {
-      console.error('Player is not initialized.');
-    }
+    console.log('Increasing volume and playing...');
+    console.log(this.#playerSignal()!.volume);
+
+    this.#playerSignal()!.play();
+    this.updateCurrentTime(true);
+    this.#playerSignal()!.volume = 0;
+    clearInterval(this.fadeInInterval);
+    clearInterval(this.fadeOutInterval);
+    this.fadeInInterval = setInterval(() => {
+      this.#playerSignal()!.volume = Math.min(
+        this.#playerSignal()!.volume + 0.1,
+        1
+      );
+      if (this.#playerSignal()!.volume === 1) {
+        clearInterval(this.fadeInInterval);
+      }
+    }, 100);
   }
 
   decreaseVolumeAndPause(): void {
-    if (this.#playerSignal()) {
-      const fadeOutInterval = setInterval(() => {
-        this.#playerSignal()!.volume = Math.max(
-          this.#playerSignal()!.volume - 0.1,
-          0
-        );
-        if (this.#playerSignal()!.volume === 0) {
-          this.updateCurrentTime(false);
-          this.#playerSignal()!.pause();
+    console.log('Decreasing volume and pausing...');
+    console.log(this.#playerSignal()!.volume);
+    clearInterval(this.fadeInInterval);
+    clearInterval(this.fadeOutInterval);
+    this.fadeOutInterval = setInterval(() => {
+      this.#playerSignal()!.volume = Math.max(
+        this.#playerSignal()!.volume - 0.1,
+        0
+      );
+      if (this.#playerSignal()!.volume === 0) {
+        this.updateCurrentTime(false);
+        this.#playerSignal()!.pause();
 
-          // Stop updating currentTime
-          if (this.currentTimeInterval) {
-            clearInterval(this.currentTimeInterval);
-            this.currentTimeInterval = null;
-          }
-          clearInterval(fadeOutInterval);
+        // Stop updating currentTime
+        if (this.currentTimeInterval) {
+          clearInterval(this.currentTimeInterval);
+          this.currentTimeInterval = null;
         }
-      }, 100);
-    } else {
-      console.error('Player is not initialized.');
-    }
+        clearInterval(this.fadeOutInterval);
+      }
+    }, 100);
   }
 
   updateCurrentTime(play: boolean): void {
     if (play) {
+      clearInterval(this.currentTimeInterval);
       this.currentTimeInterval = setInterval(() => {
         if (this.#playerSignal()) {
           this.#currentTime.set(this.#playerSignal()!.currentTime);

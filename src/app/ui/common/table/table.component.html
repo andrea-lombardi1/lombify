@@ -7,19 +7,11 @@
     <tr>
       @if (row.wrapperType == 'artist') {
       <td>
-        @if (type() === 'char') {
         <p-avatar
           [label]="row.artistName.charAt(0)"
           size="xlarge"
           [style]="{ width: '100px', height: '100px' }"
         />
-        } @else {
-        <p-avatar
-          [label]="row.artistName.charAt(0)"
-          size="xlarge"
-          [style]="{ width: '100px', height: '100px' }"
-        />
-        }
       </td>
       <td>
         <h2>{{ row.artistName }}</h2>
@@ -27,7 +19,7 @@
         <h5>{{ row.primaryGenreName }}</h5>
         }
       </td>
-      <td>
+      <td class="space-x-4">
         <p-button
           [rounded]="true"
           severity="secondary"
@@ -44,8 +36,6 @@
             favorite
           </span>
         </p-button>
-      </td>
-      <td>
         <p-button
           [rounded]="true"
           severity="secondary"
@@ -59,10 +49,10 @@
       </td>
       } @else if (row.wrapperType == 'collection') {
       <td>
-        <p-avatar
-          [image]="row.artworkUrl100"
-          size="xlarge"
-          [style]="{ width: '100px', height: 'auto' }"
+        <img
+          [src]="row.artworkUrl100 ?? '/album.png'"
+          alt="Copertina album"
+          class="w-24 h-24 min-w-24 object-cover bg-white rounded-md border-2 border-gray-300"
         />
       </td>
       <td>
@@ -73,7 +63,7 @@
         <h5>{{ row.releaseDate | date : "yyyy" }}</h5>
         }
       </td>
-      <td>
+      <td class="space-x-4">
         <p-button
           [rounded]="true"
           severity="secondary"
@@ -90,8 +80,6 @@
             favorite
           </span>
         </p-button>
-      </td>
-      <td>
         <p-button
           [rounded]="true"
           severity="secondary"
@@ -108,10 +96,10 @@
         @if (type() === 'number') {
         <p-avatar [label]="row.trackNumber" size="xlarge" />
         } @else {
-        <p-avatar
-          [image]="row.artworkUrl100"
-          size="xlarge"
-          [style]="{ width: '100px', height: '100px' }"
+        <img
+          [src]="row.artworkUrl100 ?? '/track.png'"
+          alt="Copertina canzone"
+          class="w-24 h-24 min-w-24 object-cover bg-white rounded-md border-2 border-gray-300"
         />
         }
       </td>
@@ -119,13 +107,15 @@
         <h2>{{ row.trackName }}</h2>
         <h5>{{ row.artistName }}</h5>
       </td>
-      <td>
+      <td class="space-x-4">
         <p-button
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
           (onClick)="
-            row.favorite ? this.collectionService.removeCollection(row) : this.collectionService.addCollection(row)
+            row.favorite
+              ? this.collectionService.removeCollection(row)
+              : this.collectionService.addCollection(row)
           "
         >
           <span
@@ -136,13 +126,11 @@
             favorite
           </span>
         </p-button>
-      </td>
-      <td>
         <p-button
           [rounded]="true"
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-          (click)="playSong(row)"
+          (click)="this.playerService.play(row)"
           [routerLink]="'/track/' + row.trackId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">

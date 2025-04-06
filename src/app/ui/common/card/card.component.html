@@ -67,7 +67,7 @@
         <p-button
           severity="secondary"
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
-        (click)="playSong(element)"
+        (click)="this.playerService.initializePlayer(element)"
         [routerLink]="'/track/' + element.trackId"
         >
           <span class="material-symbols-outlined" style="font-size: 2rem">

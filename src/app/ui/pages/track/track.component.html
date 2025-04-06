@@ -3,10 +3,9 @@
   <div class="flex flex-col items-center">
     <div class="flex gap-8 justify-center items-center">
       <img
-        [src]="track?.artworkUrl100"
-        alt="Track Picture"
-        class="track-picture w-full"
-        style="width: 8rem;"
+        [src]="track?.artworkUrl100 ? track?.artworkUrl100 : '/track.png'"
+        alt="Copertina canzone"
+        style="width: 8rem; height: 8rem; background: white; object-fit: cover"
       />
       <p-button
           [rounded]="true"

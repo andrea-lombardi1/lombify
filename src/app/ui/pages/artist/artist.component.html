@@ -1,3 +1,19 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
-<div class="text-center text-6xl p-8">{{ artist?.artistName}}</div>
+<div class="p-4">
+  <div class="dark:bg-[#27272a] bg-gray-200 text-center text-6xl p-4">{{ artist?.artistName}}</div>
+  <div class="flex gap-4 mt-4">
+    <label class="w-full">
+      <input type="radio" name="topSelection" value="album" class="hidden" checked>
+      <div class="w-full bg-blue-300 text-white py-2 rounded text-center cursor-pointer" [class.bg-blue-500]="selectedOption === 'album'" (click)="selectOption('album')">
+        Top 50 album
+      </div>
+    </label>
+    <label class="w-full">
+      <input type="radio" name="topSelection" value="track" class="hidden">
+      <div class="w-full bg-blue-300 text-white py-2 rounded text-center cursor-pointer" [class.bg-blue-500]="selectedOption === 'track'" (click)="selectOption('track')">
+        Top 50 canzoni
+      </div>
+    </label>
+  </div>
+</div>
 <app-table [data]="albums" [type]="'picture'"></app-table>

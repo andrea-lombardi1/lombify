@@ -9,37 +9,24 @@
   width: 100%;
   z-index: 1;
   backdrop-filter: blur(12px);
+  gap: 16px;
+  padding: 16px;
 }
 .toolbar .start {
   text-align: start;
   display: flex;
   gap: 8px;
-  padding: 16px;
   flex: 1;
 }
 
 .toolbar .end {
   text-align: end;
-  padding: 16px;
   flex: 1;
 }
 
 .toolbar .center {
   text-align: center;
   flex: 1;
-}
-
-.divider {
-  height: 88px;
-  width: 1px;
-}
-
-.hero {
-  height: calc(100vh - 176px);
-  display: flex;
-  gap: 64px;
-  justify-content: center;
-  align-items: center;
 }
 
 .card {

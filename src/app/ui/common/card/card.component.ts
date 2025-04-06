@@ -26,16 +26,4 @@ export class CardComponent {
     row.favorite = false;
     this.collectionService.removeCollection(row);
   }
-
-  playSong(song: ResultModel) {
-    this.playerService.initializePlayer(song);
-    const playSongInteval = setInterval(() => {
-      if (this.playerService.playerComp()) {
-        if (this.playerService.playerComp()!.paused) {
-          this.playerService.play();
-        }
-        clearInterval(playSongInteval);
-      }
-    }, 10);
-  }
 }

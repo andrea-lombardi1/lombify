@@ -21,6 +21,7 @@ import { LanService } from '../../../core/service/lan/lan.service';
 })
 export class NavbarComponent implements OnInit {
   readonly isLanPage = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   openDialog = output<void>();
   refresh = output<void>();
   @Input() items: MenuItem[] | undefined;
