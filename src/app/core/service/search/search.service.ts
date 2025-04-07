@@ -34,7 +34,7 @@ export class SearchService {
   constructor() {}
 
   private isFavorite(result: ResultModel): boolean {
-    return this.#collectionService.collection.some((element) => {
+    return this.#collectionService.getCollection().some((element) => {
       switch (result.wrapperType) {
         case 'artist':
           return element.wrapperType === result.wrapperType && element.artistId === result.artistId;

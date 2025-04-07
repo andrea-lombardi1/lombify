@@ -64,20 +64,26 @@ export class TrackComponent implements OnInit {
         this.playerService.initializePlayer(this.track);
       });
     } else {
-      this.lanService.getTrackById(this.trackId() as string).subscribe((data) => {
-        if (data.resultCount === 0) {
+      this.lanService.getTrackById(this.trackId() as string).subscribe({
+        next: (data) => {
+          if (data.resultCount === 0) {
+        this.router.navigate(['/404']);
+          }
+          this.itemsBreadcrumb = [
+        { label: 'Home', route: '/' },
+        {
+          label: 'LAN',
+          route: `/lan`,
+        },
+        { label: data.results[0].trackName },
+          ];
+          this.track = data.results[0];
+          this.playerService.initializePlayer(this.track);
+        },
+        error: (err) => {
+          console.error('Error fetching track by ID:', err);
           this.router.navigate(['/404']);
-        }
-        this.itemsBreadcrumb = [
-          { label: 'Home', route: '/' },
-          {
-            label: 'LAN',
-            route: `/lan`,
-          },
-          { label: data.results[0].trackName },
-        ];
-        this.track = data.results[0];
-        this.playerService.initializePlayer(this.track);
+        },
       });
     }
   }
@@ -85,12 +91,12 @@ export class TrackComponent implements OnInit {
   addToFavorites(row: ResultModel | undefined) {
     if (!row) return;
     row.favorite = true;
-    this.collectionService.addCollection(row);
+    this.collectionService.addToCollection(row);
   }
 
   removeFromFavorites(row: ResultModel | undefined) {
     if (!row) return;
     row.favorite = false;
-    this.collectionService.removeCollection(row);
+    this.collectionService.removeFromCollection(row);
   }
 }

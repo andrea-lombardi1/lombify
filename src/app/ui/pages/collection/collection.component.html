@@ -1,6 +1,6 @@
 <app-navbar [items]="itemsBreadcrumb"></app-navbar>
-@if (collectionService.collection.length === 0) {
+@if (collectionService.getCollection().length === 0) {
   <app-hero image="collection.png" title="La lista dei preferiti è vuota" description="Aggiungi i tuoi brani o album preferiti per visualizzarli qui."></app-hero>
 } @else {
-  <app-table type="collection" [data]="collectionService.collection"></app-table>
+  <app-table type="collection" [data]="collectionService.getCollection()"></app-table>
 }

@@ -114,8 +114,8 @@
           [style]="{ 'font-size': '1.5rem', padding: '1rem' }"
           (onClick)="
             row.favorite
-              ? this.collectionService.removeCollection(row)
-              : this.collectionService.addCollection(row)
+              ? this.collectionService.removeFromCollection(row)
+              : this.collectionService.addToCollection(row)
           "
         >
           <span

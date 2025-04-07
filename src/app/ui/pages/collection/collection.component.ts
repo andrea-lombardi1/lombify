@@ -32,6 +32,6 @@ export class CollectionComponent implements OnInit {
   }
 
   removeFromFavorites(row: ResultModel) {
-    this.collectionService.removeCollection(row);
+    this.collectionService.removeFromCollection(row);
   }
 }

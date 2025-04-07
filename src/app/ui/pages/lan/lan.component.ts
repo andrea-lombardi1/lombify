@@ -39,8 +39,8 @@ export class LanComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
-  addTrack(trackFile: FileUpload, trackName: string, artistFile: FileUpload, artistName: string) {
-    this.lanService.addTrack(trackFile.files[0], trackName, artistFile.files[0], artistName).subscribe({
+  addTrack(trackFile: FileUpload, trackName: string, artworkFile: FileUpload, artistName: string) {
+    this.lanService.addTrack(trackFile.files[0], trackName, artworkFile.files[0], artistName).subscribe({
       next: () => {
         this.lanService.getTracks();
       },

@@ -12,7 +12,7 @@ export class PlayerService {
   readonly #currentTime = signal<number>(0);
   readonly currentTimeComp = computed(() => this.#currentTime());
   private currentTimeInterval: any = null;
-  private currentTimeTimeout: any = null;
+  // private currentTimeTimeout: any = null;
   private fadeInInterval: any = null;
   private fadeOutInterval: any = null;
   readonly #songInfo = signal<ResultModel | null>(null);
@@ -42,23 +42,23 @@ export class PlayerService {
       }
     } else {
       this.increaseVolumeAndPlay();
-      this.startCurrentTimeTimeout();
+      // this.startCurrentTimeTimeout();
     }
   }
 
-  startCurrentTimeTimeout(): void {
-    if (Number.isNaN(this.#playerSignal()!.duration)) {
-      return;
-    }
-    clearTimeout(this.currentTimeTimeout);
-    this.currentTimeTimeout = setTimeout(() => {
-      this.decreaseVolumeAndPause();
-    }, this.#playerSignal()!.duration * 1000 - 800 - this.#playerSignal()!.currentTime * 1000);
-  }
+  // startCurrentTimeTimeout(): void {
+  //   if (Number.isNaN(this.#playerSignal()!.duration)) {
+  //     return;
+  //   }
+  //   clearTimeout(this.currentTimeTimeout);
+  //   this.currentTimeTimeout = setTimeout(() => {
+  //     this.decreaseVolumeAndPause();
+  //   }, this.#playerSignal()!.duration * 1000 - 800 - this.#playerSignal()!.currentTime * 1000);
+  // }
 
 
   pause(): void {
-    clearTimeout(this.currentTimeTimeout);
+    // clearTimeout(this.currentTimeTimeout);
     this.decreaseVolumeAndPause();
   }
 

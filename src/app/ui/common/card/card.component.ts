@@ -19,11 +19,11 @@ export class CardComponent {
 
   addToFavorites(row: ResultModel) {
     row.favorite = true;
-    this.collectionService.addCollection(row);
+    this.collectionService.addToCollection(row);
   }
 
   removeFromFavorites(row: ResultModel) {
     row.favorite = false;
-    this.collectionService.removeCollection(row);
+    this.collectionService.removeFromCollection(row);
   }
 }

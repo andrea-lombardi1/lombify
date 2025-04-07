@@ -8,33 +8,54 @@ import { HttpService } from '../http/http.service';
   providedIn: 'root'
 })
 export class LanService {
+  // HttpService
   readonly #httpService = inject(HttpService);
+  // CollectionService
   readonly #collectionService = inject(CollectionService);
 
+  // Data signal
   readonly #data = signal<ResultModel[]>([]);
+  // Data computed property
   readonly dataComp = computed(() => this.#data());
   // loading state: 0 = loading, 1 = loaded, -1 = error
   readonly #loading = signal<number>(0);
   readonly loadingComp = computed(() => this.#loading());
-  constructor() { }
 
-  addTrack(trackFile: File, trackName: string, artistFile: File, artistName: string) {
+  /**
+   * Aggiunge un brano alla libreria locale.
+   * @param trackFile Audio del brano
+   * @param trackName Nome del brano
+   * @param artworkFile Copertina del brano
+   * @param artistName Nome dell'artista
+   * @returns Observable con la risposta del server
+   */
+  addTrack(trackFile: File, trackName: string, artworkFile: File | null, artistName: string) {
+    // Preparo il FormData
     const formData = new FormData();
+    // Aggiungo i file e i dati al FormData
     formData.append('trackFile', trackFile, trackFile.name);
-    formData.append('artistFile', artistFile, artistFile.name);
+    if (artworkFile) {
+      formData.append('artworkFile', artworkFile, artworkFile.name);
+    }
     formData.append('trackName', trackName);
-    formData.append('artistName', artistName);
+    artistName ?? formData.append('artistName', artistName);
 
     return this.#httpService.addTrack(formData);
   }
 
+  /**
+   * Recupera i brani dalla libreria locale.
+   * @returns Observable con la lista dei brani
+   */
   getTracks() {
+    // Resetto i dati e lo stato di caricamento
     this.#data.update(() => []);
     this.#loading.update(() => 1);
     this.#httpService.lanTracks().subscribe({
       next: (response: SearchModel) => {
         const results = response.results.map((result) => {
-          result.favorite = this.#collectionService.collection.some(
+          // Aggiungo la proprietà favorite per ogni brano
+          result.favorite = this.#collectionService.getCollection().some(
             (element) => {
               return element.trackId === result.trackId;
             }
@@ -52,12 +73,18 @@ export class LanService {
     });
   }
 
+  /**
+   * Recupera un brano dalla libreria locale.
+   * @param id ID del brano
+   * @returns Observable con il brano
+   */
   getTrackById(id: string) {
     return this.#httpService.getTrackById(id).pipe(
       map((response: SearchModel) => {
       const results = response.results.map((result) => ({
         ...result,
-        favorite: this.#collectionService.collection.some(
+        // Aggiungo la proprietà favorite per ogni brano
+        favorite: this.#collectionService.getCollection().some(
           (element) => {
             return element.trackId === result.trackId;
           }
